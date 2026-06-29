@@ -1,4 +1,4 @@
-# NFHS-5 Health Risk Analysis
+# NFHS-5 Health Risk Analysis.
 
 An exploratory data analysis project based on the **National Family Health Survey (NFHS-5) 2019–21** dataset. The project examines state-wise health indicators, develops a composite health risk index, identifies similarities between states using graph traversal, and visualizes the results through statistical plots and choropleth maps.
 
