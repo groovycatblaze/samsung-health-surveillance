@@ -108,7 +108,6 @@ The project produces:
 
 ## Author
 
-**Nitheesh**
+**Team 7 — NumPies**
 
-B.Tech Computer Science and Business Systems  
 SRM Institute of Science and Technology
