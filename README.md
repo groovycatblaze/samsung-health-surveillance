@@ -1,113 +1,84 @@
-# NFHS-5 Health Risk Analysis.
+# nfhs-5 health risk surveillance
 
-An exploratory data analysis project based on the **National Family Health Survey (NFHS-5) 2019–21** dataset. The project examines state-wise health indicators, develops a composite health risk index, identifies similarities between states using graph traversal, and visualizes the results through statistical plots and choropleth maps.
+> samsung innovation campus · team 7 — numpies · srm institute of science and technology
 
----
-
-## Dataset
-
-**Source:** National Family Health Survey (NFHS-5), 2019–21
-
-The analysis includes the following indicators:
-
-- Women's obesity
-- Men's obesity
-- Women's anaemia
-- Childhood anaemia
-- Childhood stunting
-- Childhood wasting
+state-level health risk analysis across india using nfhs-5 (2019–21) data. computes a composite risk index, clusters states via bfs graph traversal, and serves everything through a fastapi backend with an interactive choropleth dashboard.
 
 ---
 
-## Objectives
+## what it does
 
-- Clean and preprocess NFHS-5 data
-- Explore relationships between major health indicators
-- Compare health outcomes across Indian states
-- Compute a composite health risk score
-- Identify groups of states with similar health profiles
-- Visualize results geographically
+takes six health indicators — women's obesity, men's obesity, women's anaemia, childhood anaemia, childhood stunting, and childhood wasting — across 31 indian states and runs them through:
 
----
-
-## Methodology
-
-### Data Preparation
-
-- Imported the NFHS-5 dataset
-- Selected relevant health indicators
-- Removed missing and inconsistent values
-- Standardized state names
-- Normalized variables for comparison
-
-### Exploratory Data Analysis
-
-The notebook includes:
-
-- Summary statistics
-- Distribution analysis
-- Correlation matrix
-- State-wise comparisons
-- Ranked visualizations
-
-### Composite Health Risk Index
-
-A composite score is calculated by combining normalized health indicators to compare the overall health risk of each state.
-
-### Graph-Based State Clustering
-
-States are represented as nodes in a graph. Edges connect states with similar health profiles based on a predefined similarity threshold. Breadth-First Search (BFS) is then used to identify connected groups of similar states.
-
-### Geographic Visualization
-
-Health indicators and composite scores are displayed using choropleth maps generated from GeoJSON state boundaries. Interactive visualizations are created with Folium.
+1. **min-max normalisation** across all indicators
+2. **weighted composite scoring** to produce a single composite health risk index (chri) per state
+3. **bfs graph clustering** — states within 0.05 chri of each other get connected as nodes; bfs finds the connected components
+4. **quartile-based tier labelling** — low / moderate / high / critical
+5. a **fastapi backend** serving all of this as json, plus a folium choropleth map as an html fragment
 
 ---
 
-## Technologies Used
+## stack
 
-- Python
-- Pandas
-- NumPy
-- Matplotlib
-- Folium
+- python 3, fastapi, uvicorn
+- pandas, numpy
+- folium (optional — map endpoint degrades gracefully without it)
+- geojson for india state boundaries
 
 ---
 
-## Repository Structure
+## quickstart
 
-```text
-.
-├── NFHS-5.ipynb
-├── india_states.geojson
-├── README.md
+```bash
+git clone https://github.com/groovycatblaze/samsung-health-surveillance
+cd samsung-health-surveillance
+pip install -r requirements.txt
+uvicorn main:app --reload
+```
+
+open `http://localhost:8000`. the dashboard is served from `static/index.html`.
+
+for the interactive map, drop `india_state.geojson` into the `data/` folder. you can grab it from [this repo](https://github.com/Subhash9325/GeoJson-Data-of-Indian-States). without it, the `/api/map` endpoint returns a friendly fallback message instead of crashing.
+
+---
+
+## api endpoints
+
+| endpoint | returns |
+|---|---|
+| `GET /api/health-data` | raw state metrics + region labels |
+| `GET /api/risk-index` | chri scores, risk tiers, bfs cluster ids |
+| `GET /api/clusters` | all bfs clusters as grouped state lists |
+| `GET /api/summary` | national averages + tier distribution |
+| `GET /api/map` | folium choropleth as embeddable html |
+
+---
+
+## repo structure
+
+```
+├── main.py                        # fastapi app + full analysis pipeline
+├── NFHS-5.ipynb                   # original analysis notebook
+├── cleaned_nfhs5.csv              # preprocessed dataset
+├── Composite_Health_Risk_Index.csv
+├── data/
+│   └── india_state.geojson        # (add manually — see quickstart)
+├── static/
+│   └── index.html                 # dashboard frontend
+└── requirements.txt
 ```
 
 ---
 
-## Results
+## key findings
 
-The project produces:
-
-- State-wise comparison of health indicators
-- Composite Health Risk Index
-- Graph-based clustering of states
-- Choropleth maps
-- Interactive geographic visualizations
+- **punjab and puducherry** rank critical — high obesity and hypertension co-occurring
+- **bihar, jharkhand, mp** score poorly on anaemia despite lower obesity, a separate health burden entirely
+- **manipur and nagaland** are the only two states in the low tier
+- bfs clustering groups most northern states together and isolates a high-obesity southern cluster
 
 ---
 
-## Future Work
+## dataset
 
-- District-level analysis
-- Comparison across multiple NFHS survey rounds
-- Inclusion of additional demographic and socioeconomic indicators
-- Interactive dashboard deployment
-
----
-
-## Author
-
-**Team 7 — NumPies**
-
-SRM Institute of Science and Technology
+national family health survey (nfhs-5), 2019–21. the app ships with the cleaned data hardcoded in `main.py` so it runs without any external files. point it at a live csv by placing `nfhs5.csv` in `data/` and the pipeline picks it up automatically.
