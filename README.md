@@ -1,14 +1,12 @@
 # nfhs-5 health risk surveillance
 
-> samsung innovation campus · team 7 — numpies · srm institute of science and technology
-
 state-level health risk analysis across india using nfhs-5 (2019–21) data. computes a composite risk index, clusters states via bfs graph traversal, and serves everything through a fastapi backend with an interactive choropleth dashboard.
 
 ---
 
 ## what it does
 
-takes six health indicators — women's obesity, men's obesity, women's anaemia, childhood anaemia, childhood stunting, and childhood wasting — across 31 indian states and runs them through:
+takes health indicators such as women's obesity, men's obesity, women's anaemia, childhood anaemia, childhood stunting, and childhood wasting, across 31 indian states and runs them through:
 
 1. **min-max normalisation** across all indicators
 2. **weighted composite scoring** to produce a single composite health risk index (chri) per state
@@ -22,7 +20,7 @@ takes six health indicators — women's obesity, men's obesity, women's anaemia,
 
 - python 3, fastapi, uvicorn
 - pandas, numpy
-- folium (optional — map endpoint degrades gracefully without it)
+- folium
 - geojson for india state boundaries
 
 ---
@@ -72,7 +70,7 @@ for the interactive map, drop `india_state.geojson` into the `data/` folder. you
 
 ## key findings
 
-- **punjab and puducherry** rank critical — high obesity and hypertension co-occurring
+- **punjab and puducherry** rank critical; high obesity and hypertension co-occurring
 - **bihar, jharkhand, mp** score poorly on anaemia despite lower obesity, a separate health burden entirely
 - **manipur and nagaland** are the only two states in the low tier
 - bfs clustering groups most northern states together and isolates a high-obesity southern cluster
