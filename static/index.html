@@ -1,0 +1,2044 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NFHS-5 · India Health Atlas</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  /* Docshield-inspired palette */
+  --navy: #0f1535;
+  --navy-mid: #1a2550;
+  --blue-dark: #1e3a8a;
+  --blue-mid: #2563eb;
+  --blue-light: #60a5fa;
+  --blue-glow: #93c5fd;
+  --periwinkle: #6b7fcf;
+  --slate-light: #f0f4ff;
+  --slate-mid: #e0e8ff;
+  --white: #ffffff;
+  --text-dark: #0f1535;
+  --text-mid: #334155;
+  --text-muted: #64748b;
+  --text-light: #94a3b8;
+  /* accents */
+  --teal: #0ea5e9;
+  --rose: #f43f5e;
+  --green: #10b981;
+  --amber: #f59e0b;
+  /* gradients */
+  --grad-hero: linear-gradient(150deg, #c7d7f5 0%, #a5b8f0 30%, #7c9ce8 60%, #6b8cd6 100%);
+  --grad-section: linear-gradient(160deg, #eef2ff 0%, #dbeafe 100%);
+  --grad-dark: linear-gradient(135deg, #0f1535 0%, #1e2d6b 100%);
+  --card-bg: rgba(255,255,255,0.92);
+  --card-shadow: 0 4px 30px rgba(37,99,235,0.1);
+  --border: rgba(37,99,235,0.14);
+}
+
+html { scroll-behavior: smooth; font-size: 16px; }
+body {
+  background: var(--white);
+  color: var(--text-dark);
+  font-family: 'Inter', sans-serif;
+  overflow-x: hidden;
+  line-height: 1.6;
+}
+
+/* ── SCROLLBAR ── */
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-track { background: var(--slate-light); }
+::-webkit-scrollbar-thumb { background: var(--blue-mid); border-radius: 3px; }
+
+/* ── NAV ── */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 1rem 3.5rem;
+  background: rgba(255,255,255,0.9);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(37,99,235,0.1);
+  transition: all 0.3s;
+}
+nav.scrolled {
+  background: rgba(255,255,255,0.97);
+  box-shadow: 0 2px 20px rgba(37,99,235,0.1);
+}
+.nav-logo {
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 700; font-size: 1rem;
+  color: var(--navy);
+  display: flex; align-items: center; gap: 0.6rem;
+  letter-spacing: -0.01em;
+}
+.nav-logo-icon {
+  width: 30px; height: 30px; border-radius: 8px;
+  background: var(--grad-dark);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.85rem;
+}
+.nav-links { display: flex; gap: 2rem; }
+.nav-links a {
+  color: var(--text-muted); text-decoration: none;
+  font-size: 0.84rem; font-weight: 500;
+  transition: color 0.2s;
+}
+.nav-links a:hover { color: var(--blue-mid); }
+.nav-cta {
+  background: var(--navy);
+  color: #fff; border: none; padding: 0.55rem 1.4rem;
+  border-radius: 100px; font-family: 'Space Grotesk', sans-serif;
+  font-weight: 600; font-size: 0.84rem; cursor: pointer;
+  transition: background 0.2s, transform 0.2s;
+  text-decoration: none;
+  display: flex; align-items: center; gap: 0.4rem;
+}
+.nav-cta:hover { background: var(--blue-dark); transform: translateY(-1px); }
+
+/* ── HERO ── */
+#hero {
+  min-height: 100vh;
+  display: flex; align-items: center;
+  position: relative; overflow: hidden;
+  padding: 8rem 3.5rem 5rem;
+  background: var(--grad-hero);
+}
+.hero-grid {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 4rem; align-items: center;
+  max-width: 1260px; margin: 0 auto; width: 100%;
+  position: relative; z-index: 2;
+}
+.hero-eyebrow {
+  display: inline-flex; align-items: center; gap: 0.6rem;
+  background: rgba(255,255,255,0.3); backdrop-filter: blur(10px);
+  border: 1px solid rgba(255,255,255,0.5);
+  border-radius: 100px; padding: 0.35rem 1rem 0.35rem 0.5rem;
+  font-size: 0.74rem; font-weight: 600; letter-spacing: 0.1em;
+  color: var(--navy); margin-bottom: 2rem;
+  text-transform: uppercase;
+}
+.hero-eyebrow span {
+  background: var(--navy); color: white;
+  border-radius: 100px; padding: 0.15rem 0.6rem;
+  font-size: 0.65rem;
+}
+h1 {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: clamp(3rem, 5.5vw, 5.5rem);
+  font-weight: 700; line-height: 1.02; letter-spacing: -0.03em;
+  color: var(--navy); margin-bottom: 1.8rem;
+}
+h1 em { font-style: normal; color: var(--white); }
+.hero-desc {
+  color: var(--navy-mid); font-size: 1.05rem;
+  max-width: 480px; margin-bottom: 2.5rem; line-height: 1.75;
+  font-weight: 400;
+}
+.hero-ctas { display: flex; gap: 1rem; flex-wrap: wrap; }
+.btn-primary {
+  background: var(--navy); color: #fff; border: none;
+  padding: 0.9rem 2.2rem; border-radius: 100px;
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 600; font-size: 0.9rem; cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+  text-decoration: none; display: inline-block;
+  box-shadow: 0 4px 20px rgba(15,21,53,0.25);
+}
+.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(15,21,53,0.35); }
+.btn-outline {
+  background: rgba(255,255,255,0.4); color: var(--navy);
+  border: 1.5px solid rgba(255,255,255,0.7); padding: 0.9rem 2.2rem;
+  border-radius: 100px; font-family: 'Space Grotesk', sans-serif;
+  font-weight: 600; font-size: 0.9rem; cursor: pointer;
+  transition: background 0.2s, border-color 0.2s;
+  text-decoration: none; display: inline-block;
+  backdrop-filter: blur(10px);
+}
+.btn-outline:hover { background: rgba(255,255,255,0.6); }
+
+/* hero stats row */
+.hero-stats {
+  display: flex; gap: 1.2rem; margin-top: 3.5rem; flex-wrap: wrap;
+}
+.hero-stat {
+  background: rgba(255,255,255,0.5); border: 1px solid rgba(255,255,255,0.7);
+  border-radius: 14px; padding: 1.2rem 1.6rem;
+  backdrop-filter: blur(12px);
+  opacity: 0; transform: translateY(16px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+.hero-stat.vis { opacity: 1; transform: translateY(0); }
+.hero-stat-val {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 2.2rem; font-weight: 700; color: var(--navy);
+}
+.hero-stat-label { font-size: 0.72rem; color: var(--navy-mid); margin-top: 0.15rem; line-height: 1.4; max-width: 120px; }
+
+/* hero visual - globe area */
+.hero-visual {
+  position: relative; display: flex;
+  justify-content: center; align-items: center;
+}
+#globe-canvas-wrap {
+  width: 460px; height: 460px; border-radius: 50%;
+  position: relative; overflow: hidden;
+  background: radial-gradient(circle at 40% 40%, rgba(255,255,255,0.15), transparent 60%),
+              linear-gradient(135deg, rgba(15,21,53,0.15), rgba(37,99,235,0.25));
+  box-shadow: 0 0 80px rgba(37,99,235,0.25), inset 0 0 60px rgba(255,255,255,0.1);
+  border: 1px solid rgba(255,255,255,0.3);
+}
+canvas#globe { display: block; width: 100%; height: 100%; }
+
+/* floating review cards (Docshield style) */
+.review-card {
+  position: absolute; background: rgba(255,255,255,0.95);
+  border-radius: 16px; padding: 1.2rem 1.4rem;
+  box-shadow: 0 8px 40px rgba(37,99,235,0.15);
+  font-size: 0.82rem; color: var(--text-dark);
+  max-width: 200px; line-height: 1.5;
+  animation: floatCard 6s ease-in-out infinite;
+}
+.review-card strong { display: block; font-family: 'Space Grotesk', sans-serif; font-size: 0.9rem; margin-bottom: 0.4rem; color: var(--navy); }
+.review-card-meta { font-size: 0.7rem; color: var(--text-muted); margin-top: 0.5rem; display: flex; align-items: center; gap: 0.4rem; }
+.review-card-avatar { width: 20px; height: 20px; border-radius: 50%; background: var(--navy); color: white; display: inline-flex; align-items: center; justify-content: center; font-size: 0.6rem; font-weight: 700; flex-shrink: 0; }
+.card-tl { top: 5%; right: -30px; animation-delay: 0s; transform: rotate(-3deg); }
+.card-br { bottom: 10%; right: -20px; animation-delay: 3s; transform: rotate(2deg); }
+@keyframes floatCard {
+  0%, 100% { transform: translateY(0) rotate(var(--rot, -3deg)); }
+  50% { transform: translateY(-10px) rotate(var(--rot, -3deg)); }
+}
+.card-tl { --rot: -3deg; }
+.card-br { --rot: 2deg; }
+
+/* background orbs */
+.hero-orb {
+  position: absolute; border-radius: 50%;
+  filter: blur(100px); pointer-events: none; z-index: 0;
+}
+.orb-a { width: 600px; height: 600px; background: rgba(255,255,255,0.2); top: -200px; right: -200px; }
+.orb-b { width: 400px; height: 400px; background: rgba(37,99,235,0.15); bottom: -100px; left: -100px; }
+.hero-grid-bg {
+  position: absolute; inset: 0; z-index: 0;
+  background-image: linear-gradient(rgba(255,255,255,0.08) 1px, transparent 1px),
+                    linear-gradient(90deg, rgba(255,255,255,0.08) 1px, transparent 1px);
+  background-size: 60px 60px;
+  pointer-events: none;
+}
+
+/* ── LOGO CLOUD (component 5) ── */
+#logo-cloud {
+  padding: 3rem 3.5rem;
+  background: var(--white);
+  border-bottom: 1px solid rgba(37,99,235,0.08);
+}
+.logo-cloud-inner { max-width: 1260px; margin: 0 auto; }
+.logo-cloud-header {
+  text-align: center; margin-bottom: 2rem;
+}
+.logo-cloud-header h3 {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 1.1rem; font-weight: 600; color: var(--text-muted);
+  letter-spacing: -0.01em; margin-bottom: 0.5rem;
+}
+.logo-cloud-header h3 strong { color: var(--text-dark); }
+.logo-cloud-divider {
+  height: 1px; background: linear-gradient(to right, transparent, var(--border), transparent);
+  max-width: 400px; margin: 0 auto 2rem;
+}
+.logo-marquee-wrap { overflow: hidden; position: relative; }
+.logo-marquee-wrap::before, .logo-marquee-wrap::after {
+  content: ''; position: absolute; top: 0; bottom: 0; width: 120px; z-index: 2; pointer-events: none;
+}
+.logo-marquee-wrap::before { left: 0; background: linear-gradient(to right, white, transparent); }
+.logo-marquee-wrap::after { right: 0; background: linear-gradient(to left, white, transparent); }
+.logo-marquee {
+  display: flex; gap: 3.5rem; align-items: center;
+  animation: marquee 22s linear infinite;
+  width: max-content;
+}
+.logo-marquee:hover { animation-play-state: paused; }
+.logo-marquee-item {
+  display: flex; align-items: center; gap: 0.4rem;
+  font-family: 'Space Grotesk', sans-serif; font-size: 0.85rem; font-weight: 600;
+  color: var(--text-muted); white-space: nowrap;
+  transition: color 0.2s; opacity: 0.65;
+}
+.logo-marquee-item:hover { opacity: 1; color: var(--blue-mid); }
+.logo-marquee-item .logo-icon {
+  width: 24px; height: 24px; border-radius: 6px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.9rem;
+}
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+/* ── SECTION SHARED ── */
+section { padding: 7rem 3.5rem; position: relative; }
+.section-inner { max-width: 1260px; margin: 0 auto; }
+.section-tag {
+  font-size: 0.7rem; font-weight: 600; letter-spacing: 0.18em;
+  color: var(--blue-mid); text-transform: uppercase; margin-bottom: 1rem;
+  display: flex; align-items: center; gap: 0.7rem;
+}
+.section-tag::before { content: ''; width: 28px; height: 1.5px; background: var(--blue-mid); display: block; }
+h2 {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: clamp(2rem, 3.5vw, 3rem);
+  font-weight: 700; line-height: 1.12; letter-spacing: -0.025em;
+  margin-bottom: 1rem; color: var(--text-dark);
+}
+.section-desc { color: var(--text-mid); font-size: 1rem; max-width: 600px; line-height: 1.75; }
+
+/* ── REVEAL ── */
+.reveal {
+  opacity: 0; transform: translateY(36px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+.reveal.visible { opacity: 1; transform: translateY(0); }
+.delay-1 { transition-delay: 0.1s; }
+.delay-2 { transition-delay: 0.2s; }
+.delay-3 { transition-delay: 0.3s; }
+.delay-4 { transition-delay: 0.4s; }
+
+/* ── CRM DEMO SECTION (component 1) ── */
+#crm-demo {
+  background: var(--white);
+  overflow: hidden;
+}
+.crm-section-header {
+  text-align: center; max-width: 640px; margin: 0 auto 4rem;
+}
+.crm-demo-layout {
+  display: grid; grid-template-columns: 1fr 1.3fr; gap: 4rem;
+  align-items: center;
+}
+.crm-benefits { display: flex; flex-direction: column; gap: 1.5rem; }
+.crm-benefit {
+  display: flex; align-items: flex-start; gap: 1.2rem;
+  padding: 1.5rem; border-radius: 16px;
+  border: 1px solid transparent;
+  transition: border-color 0.3s, background 0.3s;
+  cursor: default;
+}
+.crm-benefit:hover, .crm-benefit.active {
+  background: var(--slate-light);
+  border-color: var(--border);
+}
+.crm-benefit-icon {
+  width: 44px; height: 44px; border-radius: 12px;
+  background: linear-gradient(135deg, var(--blue-mid), var(--blue-light));
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.2rem; flex-shrink: 0;
+  box-shadow: 0 4px 14px rgba(37,99,235,0.3);
+}
+.crm-benefit h4 {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 0.95rem; font-weight: 600; color: var(--text-dark); margin-bottom: 0.3rem;
+}
+.crm-benefit p { font-size: 0.83rem; color: var(--text-muted); line-height: 1.6; }
+/* interactive dashboard preview */
+.crm-dashboard {
+  background: white;
+  border: 1px solid rgba(37,99,235,0.14);
+  border-radius: 20px;
+  box-shadow: 0 20px 80px rgba(37,99,235,0.12), 0 2px 8px rgba(37,99,235,0.05);
+  overflow: hidden;
+}
+.crm-dash-header {
+  background: var(--navy);
+  padding: 1rem 1.5rem;
+  display: flex; align-items: center; gap: 0.7rem;
+}
+.dash-dot { width: 10px; height: 10px; border-radius: 50%; }
+.dash-dot.r { background: #ff5f57; }
+.dash-dot.y { background: #febc2e; }
+.dash-dot.g { background: #28c840; }
+.crm-dash-title { color: rgba(255,255,255,0.6); font-size: 0.75rem; margin-left: 0.5rem; }
+.crm-dash-body { padding: 1.5rem; }
+.crm-dash-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.8rem; margin-bottom: 1.2rem; }
+.crm-mini-stat {
+  background: var(--slate-light); border-radius: 10px; padding: 1rem 1.2rem;
+  border: 1px solid rgba(37,99,235,0.1);
+}
+.crm-mini-stat .cms-label { font-size: 0.68rem; color: var(--text-muted); letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 0.4rem; }
+.crm-mini-stat .cms-val {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 1.6rem; font-weight: 700;
+}
+.crm-mini-stat .cms-change { font-size: 0.7rem; margin-top: 0.15rem; }
+.crm-bar-chart { margin-top: 0.5rem; }
+.crm-bar-row {
+  display: flex; align-items: center; gap: 0.8rem; margin-bottom: 0.6rem;
+}
+.crm-bar-label { font-size: 0.72rem; color: var(--text-muted); width: 80px; flex-shrink: 0; text-align: right; }
+.crm-bar-track { flex: 1; height: 7px; background: var(--slate-mid); border-radius: 4px; overflow: hidden; }
+.crm-bar-fill { height: 100%; border-radius: 4px; transition: width 1.2s cubic-bezier(0.25,0.46,0.45,0.94); }
+.crm-bar-pct { font-size: 0.72rem; font-weight: 600; width: 36px; color: var(--text-dark); }
+
+/* ── OVERVIEW CARDS ── */
+#overview { background: var(--slate-light); }
+.indicators-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 1.5rem; margin-top: 3.5rem; }
+.ind-card {
+  background: var(--white); border: 1px solid var(--border);
+  border-radius: 18px; padding: 1.8rem;
+  position: relative; overflow: hidden;
+  transition: transform 0.3s, box-shadow 0.3s;
+  box-shadow: var(--card-shadow);
+}
+.ind-card::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+  border-radius: 2px 2px 0 0;
+}
+.ind-card.blue::before { background: linear-gradient(90deg, var(--blue-mid), var(--blue-light)); }
+.ind-card.teal::before { background: linear-gradient(90deg, var(--teal), #38bdf8); }
+.ind-card.rose::before { background: linear-gradient(90deg, var(--rose), #fb7185); }
+.ind-card.green::before { background: linear-gradient(90deg, var(--green), #34d399); }
+.ind-card:hover { transform: translateY(-5px); box-shadow: 0 16px 50px rgba(37,99,235,0.15); }
+.ind-icon {
+  width: 42px; height: 42px; border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.2rem; margin-bottom: 1rem;
+}
+.ind-card.blue .ind-icon { background: rgba(37,99,235,0.1); }
+.ind-card.teal .ind-icon { background: rgba(14,165,233,0.1); }
+.ind-card.rose .ind-icon { background: rgba(244,63,94,0.1); }
+.ind-card.green .ind-icon { background: rgba(16,185,129,0.1); }
+.ind-card h3 { font-family: 'Space Grotesk', sans-serif; font-size: 0.95rem; font-weight: 600; margin-bottom: 0.4rem; color: var(--text-dark); }
+.ind-card p { font-size: 0.81rem; color: var(--text-muted); line-height: 1.6; }
+.ind-val { font-family: 'Space Grotesk', sans-serif; font-size: 2.3rem; font-weight: 700; margin-top: 1rem; }
+.ind-sub { font-size: 0.7rem; color: var(--text-muted); margin-top: 0.1rem; }
+
+/* ── BIG TEXT SECTION (Docshield "difference" style) ── */
+#big-text {
+  background: var(--white);
+  padding: 7rem 3.5rem;
+  overflow: hidden;
+}
+.big-text-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: center; max-width: 1260px; margin: 0 auto; }
+.big-headline {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: clamp(3.5rem, 7vw, 6.5rem);
+  font-weight: 700; line-height: 1.0; letter-spacing: -0.04em;
+  color: var(--text-dark);
+}
+.big-headline span { color: var(--blue-mid); }
+.big-text-right { display: flex; flex-direction: column; gap: 2rem; }
+.big-text-card {
+  background: var(--slate-light);
+  border: 1px solid var(--border); border-radius: 16px; padding: 1.8rem;
+  position: relative; overflow: hidden;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+.big-text-card:hover { transform: translateY(-3px); box-shadow: 0 12px 36px rgba(37,99,235,0.12); }
+.big-text-card::before {
+  content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 3px;
+  background: linear-gradient(to bottom, var(--blue-mid), var(--teal));
+}
+.big-text-card h4 { font-family: 'Space Grotesk', sans-serif; font-size: 1rem; font-weight: 600; margin-bottom: 0.4rem; color: var(--text-dark); }
+.big-text-card p { font-size: 0.84rem; color: var(--text-muted); line-height: 1.65; }
+.btc-stat { font-family: 'Space Grotesk', sans-serif; font-size: 2rem; font-weight: 700; color: var(--blue-mid); margin-bottom: 0.3rem; }
+
+/* ── STATE EXPLORER ── */
+#explorer { background: linear-gradient(160deg, var(--white) 0%, var(--slate-light) 100%); }
+.explorer-layout { display: grid; grid-template-columns: 320px 1fr; gap: 2rem; margin-top: 3rem; }
+.state-list-wrap {
+  background: var(--white); border: 1px solid var(--border);
+  border-radius: 16px; overflow: hidden; box-shadow: var(--card-shadow);
+}
+.state-search {
+  padding: 1rem; border-bottom: 1px solid var(--border);
+  background: var(--slate-light);
+}
+.state-search input {
+  width: 100%; background: var(--white);
+  border: 1px solid var(--border); border-radius: 10px;
+  color: var(--text-dark); font-family: 'Inter', sans-serif;
+  font-size: 0.84rem; padding: 0.6rem 1rem; outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+.state-search input:focus { border-color: var(--blue-mid); box-shadow: 0 0 0 3px rgba(37,99,235,0.12); }
+.state-search input::placeholder { color: var(--text-light); }
+.state-list { max-height: 520px; overflow-y: auto; scrollbar-width: thin; scrollbar-color: var(--slate-mid) transparent; }
+.state-item {
+  padding: 0.75rem 1.2rem; cursor: pointer;
+  display: flex; align-items: center; justify-content: space-between;
+  border-bottom: 1px solid rgba(37,99,235,0.07);
+  transition: background 0.15s;
+}
+.state-item:hover { background: rgba(37,99,235,0.04); }
+.state-item.active { background: rgba(37,99,235,0.08); border-left: 3px solid var(--blue-mid); }
+.state-item .s-name { font-size: 0.85rem; font-weight: 500; color: var(--text-dark); }
+.state-item .s-abbr {
+  font-size: 0.68rem; font-weight: 700; letter-spacing: 0.05em;
+  color: var(--blue-mid); background: rgba(37,99,235,0.09);
+  padding: 0.18rem 0.55rem; border-radius: 5px;
+}
+.state-detail {
+  background: var(--white); border: 1px solid var(--border);
+  border-radius: 16px; padding: 2rem; min-height: 580px;
+  box-shadow: var(--card-shadow);
+}
+.detail-header {
+  display: flex; align-items: flex-start; justify-content: space-between;
+  margin-bottom: 2rem; padding-bottom: 1.5rem;
+  border-bottom: 1px solid var(--border);
+}
+.detail-state-name { font-family: 'Space Grotesk', sans-serif; font-size: 1.8rem; font-weight: 700; color: var(--text-dark); }
+.detail-region { font-size: 0.8rem; color: var(--text-muted); margin-top: 0.3rem; }
+.detail-rank {
+  font-family: 'Space Grotesk', sans-serif; font-size: 0.74rem; font-weight: 700; letter-spacing: 0.08em;
+  padding: 0.4rem 1rem; border-radius: 100px;
+  background: var(--navy); color: #fff; box-shadow: 0 3px 12px rgba(15,21,53,0.25);
+}
+.metrics-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 1rem; margin-bottom: 2rem; }
+.metric-card {
+  background: var(--slate-light); border: 1px solid var(--border); border-radius: 12px; padding: 1.1rem 1.3rem;
+}
+.metric-label { font-size: 0.7rem; color: var(--text-muted); margin-bottom: 0.35rem; letter-spacing: 0.06em; text-transform: uppercase; }
+.metric-val { font-family: 'Space Grotesk', sans-serif; font-size: 1.6rem; font-weight: 700; }
+.metric-sub { font-size: 0.72rem; color: var(--text-muted); margin-top: 0.1rem; }
+.metric-bar { height: 5px; background: rgba(37,99,235,0.1); border-radius: 3px; margin-top: 0.7rem; overflow: hidden; }
+.metric-bar-fill { height: 100%; border-radius: 3px; transition: width 0.8s cubic-bezier(0.25,0.46,0.45,0.94); }
+
+/* ── CORRELATIONS ── */
+#correlations { background: var(--slate-light); }
+.corr-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-top: 3rem; }
+.corr-card {
+  background: var(--white); border: 1px solid var(--border);
+  border-radius: 18px; padding: 2rem; box-shadow: var(--card-shadow);
+}
+.corr-card h3 { font-family: 'Space Grotesk', sans-serif; font-size: 1rem; font-weight: 600; margin-bottom: 0.5rem; color: var(--text-dark); }
+.corr-card p { font-size: 0.82rem; color: var(--text-muted); margin-bottom: 1.5rem; line-height: 1.65; }
+.scatter-canvas { width: 100%; height: 280px; position: relative; }
+canvas { border-radius: 10px; }
+
+/* ── TESTIMONIALS (component 3) ── */
+#testimonials { background: var(--white); padding: 7rem 3.5rem; }
+.testimonials-header { text-align: center; max-width: 600px; margin: 0 auto 4rem; }
+.testimonials-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; max-width: 1260px; margin: 0 auto; }
+.testimonial-card {
+  background: var(--slate-light); border: 1px solid var(--border);
+  border-radius: 20px; padding: 2rem;
+  transition: transform 0.3s, box-shadow 0.3s, border-color 0.3s;
+  position: relative; overflow: hidden;
+}
+.testimonial-card:hover {
+  transform: translateY(-6px); box-shadow: 0 20px 60px rgba(37,99,235,0.12);
+  border-color: rgba(37,99,235,0.25);
+}
+.testimonial-card::before {
+  content: '"'; position: absolute; top: -0.5rem; right: 1rem;
+  font-size: 6rem; font-family: 'Space Grotesk', sans-serif;
+  color: rgba(37,99,235,0.06); line-height: 1; pointer-events: none;
+}
+.test-stars { color: #f59e0b; font-size: 0.85rem; margin-bottom: 1rem; }
+.test-quote { font-size: 0.88rem; color: var(--text-mid); line-height: 1.7; margin-bottom: 1.5rem; }
+.test-author { display: flex; align-items: center; gap: 0.8rem; }
+.test-avatar {
+  width: 38px; height: 38px; border-radius: 50%;
+  background: var(--navy); color: white;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.78rem; font-weight: 700; flex-shrink: 0;
+}
+.test-name { font-family: 'Space Grotesk', sans-serif; font-size: 0.85rem; font-weight: 600; color: var(--text-dark); }
+.test-role { font-size: 0.72rem; color: var(--text-muted); }
+
+/* ── RANKINGS ── */
+#rankings { background: var(--white); }
+.rank-tabs { display: flex; gap: 0.5rem; margin: 2rem 0 1.5rem; flex-wrap: wrap; }
+.rank-tab {
+  padding: 0.5rem 1.2rem; border-radius: 100px;
+  background: var(--slate-light); color: var(--text-muted);
+  border: 1.5px solid var(--border); cursor: pointer;
+  font-size: 0.81rem; font-weight: 500;
+  transition: all 0.2s;
+}
+.rank-tab.active { background: var(--navy); color: #fff; border-color: transparent; box-shadow: 0 4px 14px rgba(15,21,53,0.25); }
+.rank-tab:hover:not(.active) { border-color: var(--blue-mid); color: var(--blue-mid); background: rgba(37,99,235,0.05); }
+.rank-list { display: grid; gap: 0.55rem; }
+.rank-row {
+  display: grid; grid-template-columns: 36px 1fr 100px 120px;
+  align-items: center; gap: 1rem;
+  background: var(--slate-light); border: 1px solid var(--border);
+  border-radius: 12px; padding: 0.85rem 1.2rem;
+  transition: box-shadow 0.2s, border-color 0.2s, background 0.2s;
+}
+.rank-row:hover { background: var(--white); box-shadow: 0 6px 24px rgba(37,99,235,0.1); border-color: rgba(37,99,235,0.22); }
+.rank-num { font-family: 'Space Grotesk', sans-serif; font-size: 0.82rem; font-weight: 700; color: var(--text-light); text-align: center; }
+.rank-row:nth-child(1) .rank-num { color: #ca8a04; }
+.rank-row:nth-child(2) .rank-num { color: #64748b; }
+.rank-row:nth-child(3) .rank-num { color: #92400e; }
+.rank-state { font-size: 0.9rem; font-weight: 500; color: var(--text-dark); }
+.rank-region { font-size: 0.7rem; color: var(--text-muted); }
+.rank-val { font-family: 'Space Grotesk', sans-serif; font-size: 1rem; font-weight: 700; text-align: right; }
+.rank-bar-wrap { position: relative; height: 6px; background: var(--slate-mid); border-radius: 3px; overflow: hidden; }
+.rank-bar-inner { height: 100%; border-radius: 3px; transition: width 1s ease; }
+
+/* ── METHODOLOGY ── */
+#methodology { background: var(--slate-light); }
+.method-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 1.5rem; margin-top: 3rem; }
+.method-step {
+  background: var(--white); border: 1px solid var(--border);
+  border-radius: 18px; padding: 2rem; position: relative;
+  box-shadow: var(--card-shadow);
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+.method-step:hover { transform: translateY(-4px); box-shadow: 0 16px 50px rgba(37,99,235,0.12); }
+.step-num {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 3.5rem; font-weight: 800; color: rgba(37,99,235,0.1);
+  line-height: 1; margin-bottom: 1rem;
+}
+.method-step h3 { font-family: 'Space Grotesk', sans-serif; font-size: 0.95rem; font-weight: 600; margin-bottom: 0.5rem; color: var(--text-dark); }
+.method-step p { font-size: 0.81rem; color: var(--text-muted); line-height: 1.65; }
+.tech-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 1rem; }
+.tech-tag {
+  font-size: 0.68rem; padding: 0.22rem 0.65rem; border-radius: 6px;
+  background: rgba(37,99,235,0.08); color: var(--blue-dark);
+  border: 1px solid rgba(37,99,235,0.15); font-weight: 500;
+}
+.dataset-stats { margin-top: 3rem; display: grid; grid-template-columns: repeat(4,1fr); gap: 1.5rem; }
+.ds-stat {
+  text-align: center; padding: 1.5rem;
+  background: var(--white); border: 1px solid var(--border); border-radius: 12px;
+}
+.ds-stat-val { font-family: 'Space Grotesk', sans-serif; font-size: 2rem; font-weight: 700; }
+.ds-stat-label { font-size: 0.76rem; color: var(--text-muted); margin-top: 0.3rem; }
+
+/* ── CINEMATIC FOOTER (component 4) ── */
+#cinematic-footer {
+  position: relative;
+  background: var(--navy);
+  overflow: hidden;
+  padding: 6rem 3.5rem 4rem;
+  z-index: 1;
+}
+.footer-bg-grid {
+  position: absolute; inset: 0; z-index: 0;
+  background-image: linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+                    linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+  background-size: 50px 50px;
+  pointer-events: none;
+}
+.footer-orb {
+  position: absolute; border-radius: 50%; filter: blur(120px); pointer-events: none;
+}
+.footer-orb-a { width: 500px; height: 500px; background: rgba(37,99,235,0.2); top: -150px; right: -100px; }
+.footer-orb-b { width: 350px; height: 350px; background: rgba(14,165,233,0.12); bottom: -50px; left: -50px; }
+.footer-inner { max-width: 1260px; margin: 0 auto; position: relative; z-index: 2; }
+.footer-top { display: grid; grid-template-columns: 1.4fr 1fr 1fr 1fr; gap: 4rem; margin-bottom: 5rem; }
+.footer-brand .footer-logo {
+  font-family: 'Space Grotesk', sans-serif; font-size: 1.1rem; font-weight: 700;
+  color: var(--white); margin-bottom: 1rem;
+  display: flex; align-items: center; gap: 0.6rem;
+}
+.footer-logo-badge {
+  width: 28px; height: 28px; border-radius: 7px;
+  background: linear-gradient(135deg, var(--blue-mid), var(--teal));
+  display: flex; align-items: center; justify-content: center; font-size: 0.8rem;
+}
+.footer-brand p { font-size: 0.82rem; color: rgba(255,255,255,0.45); line-height: 1.7; max-width: 240px; }
+.footer-col h5 {
+  font-family: 'Space Grotesk', sans-serif; font-size: 0.8rem; font-weight: 600;
+  color: rgba(255,255,255,0.9); letter-spacing: 0.1em; text-transform: uppercase;
+  margin-bottom: 1.2rem;
+}
+.footer-col a {
+  display: block; color: rgba(255,255,255,0.45); text-decoration: none;
+  font-size: 0.84rem; margin-bottom: 0.65rem;
+  transition: color 0.2s;
+}
+.footer-col a:hover { color: rgba(255,255,255,0.85); }
+.footer-bottom {
+  display: flex; align-items: center; justify-content: space-between;
+  padding-top: 2rem; border-top: 1px solid rgba(255,255,255,0.08);
+}
+.footer-copy { font-size: 0.8rem; color: rgba(255,255,255,0.3); }
+.footer-badge {
+  font-size: 0.72rem; font-weight: 600; letter-spacing: 0.08em;
+  background: rgba(37,99,235,0.25); color: var(--blue-glow);
+  padding: 0.35rem 0.9rem; border-radius: 100px;
+  border: 1px solid rgba(37,99,235,0.4);
+}
+/* Cinematic lines animation */
+.footer-line {
+  position: absolute; left: 0; right: 0; height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(37,99,235,0.4), rgba(14,165,233,0.4), transparent);
+  pointer-events: none;
+  animation: footerLine 8s ease-in-out infinite;
+}
+.footer-line:nth-child(2) { animation-delay: 2.5s; animation-duration: 10s; }
+.footer-line:nth-child(3) { animation-delay: 5s; animation-duration: 7s; }
+@keyframes footerLine {
+  0% { top: 0%; opacity: 0; }
+  5% { opacity: 1; }
+  95% { opacity: 0.4; }
+  100% { top: 100%; opacity: 0; }
+}
+
+/* ── TOOLTIP ── */
+.tooltip {
+  position: fixed; background: var(--white); border: 1px solid var(--border);
+  border-radius: 10px; padding: 0.7rem 1rem;
+  font-size: 0.78rem; pointer-events: none; z-index: 999;
+  opacity: 0; transition: opacity 0.2s; max-width: 220px;
+  color: var(--text-dark); box-shadow: 0 4px 24px rgba(37,99,235,0.15);
+}
+.tooltip.visible { opacity: 1; }
+.tooltip strong { color: var(--blue-mid); display: block; margin-bottom: 0.3rem; }
+
+/* scan-line intro */
+.scan-line {
+  position: fixed; top: 0; left: 0; right: 0; height: 2px;
+  background: linear-gradient(90deg, transparent, var(--blue-mid), var(--teal), transparent);
+  animation: scanLine 2.5s ease-in-out 0.3s 1 forwards;
+  z-index: 999; pointer-events: none;
+}
+@keyframes scanLine {
+  0% { transform: translateY(-2px); opacity: 0; }
+  5% { opacity: 1; }
+  95% { opacity: 0.7; }
+  100% { transform: translateY(100vh); opacity: 0; }
+}
+
+/* fade-up for hero content */
+.fade-up { animation: fadeUp 0.8s ease forwards; }
+.fu1 { animation-delay: 0.1s; opacity: 0; }
+.fu2 { animation-delay: 0.3s; opacity: 0; }
+.fu3 { animation-delay: 0.5s; opacity: 0; }
+.fu4 { animation-delay: 0.7s; opacity: 0; }
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(28px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* counter */
+.counter { display: inline; }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 1100px) {
+  .indicators-grid { grid-template-columns: repeat(2,1fr); }
+  .hero-grid { grid-template-columns: 1fr; }
+  .hero-visual { display: none; }
+  .explorer-layout { grid-template-columns: 1fr; }
+  .corr-layout { grid-template-columns: 1fr; }
+  .crm-demo-layout { grid-template-columns: 1fr; }
+  .big-text-layout { grid-template-columns: 1fr; }
+  .footer-top { grid-template-columns: 1fr 1fr; }
+  .testimonials-grid { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 768px) {
+  nav { padding: 1rem 1.5rem; }
+  .nav-links { display: none; }
+  section { padding: 5rem 1.5rem; }
+  #hero { padding: 7rem 1.5rem 3rem; }
+  .indicators-grid { grid-template-columns: 1fr 1fr; }
+  .method-grid { grid-template-columns: 1fr; }
+  .rank-row { grid-template-columns: 28px 1fr 80px; }
+  .rank-bar-wrap { display: none; }
+  .dataset-stats { grid-template-columns: repeat(2,1fr); }
+  .footer-top { grid-template-columns: 1fr; gap: 2rem; }
+  .testimonials-grid { grid-template-columns: 1fr; }
+  .big-headline { font-size: 3rem; }
+}
+</style>
+</head>
+<body>
+
+<div class="scan-line"></div>
+<div class="tooltip" id="tooltip"></div>
+
+<!-- ── NAV ── -->
+<nav id="navbar">
+  <div class="nav-logo">
+    <div class="nav-logo-icon">🏥</div>
+    NFHS·5 Atlas
+  </div>
+  <div class="nav-links">
+    <a href="#overview">Overview</a>
+    <a href="#crm-demo">Analysis</a>
+    <a href="#explorer">States</a>
+    <a href="#correlations">Correlations</a>
+    <a href="#rankings">Rankings</a>
+    <a href="#methodology">Methods</a>
+  </div>
+  <a href="#explorer" class="nav-cta">Explore States →</a>
+</nav>
+
+<!-- ── HERO ── -->
+<section id="hero">
+  <div class="hero-grid-bg"></div>
+  <div class="hero-orb orb-a"></div>
+  <div class="hero-orb orb-b"></div>
+  <div class="hero-grid">
+    <div class="hero-content">
+      <div class="hero-eyebrow fade-up fu1">
+        <span>NFHS-5</span>
+        National Family Health Survey · 2019–20
+      </div>
+      <h1 class="fade-up fu2">
+        India's Health<br>
+        <em>Disparities</em><br>
+        Mapped.
+      </h1>
+      <p class="hero-desc fade-up fu3">
+        State-level analysis of malnutrition, obesity, hypertension, and blood sugar across all 28 states and 8 union territories — surfacing the inequalities hidden in aggregate numbers.
+      </p>
+      <div class="hero-ctas fade-up fu4">
+        <a href="#explorer" class="btn-primary">Explore States →</a>
+        <a href="#correlations" class="btn-outline">View Correlations</a>
+      </div>
+      <div class="hero-stats">
+        <div class="hero-stat" style="transition-delay:0.8s">
+          <div class="hero-stat-val"><span class="counter" data-target="36">0</span>%</div>
+          <div class="hero-stat-label">Women with anaemia</div>
+        </div>
+        <div class="hero-stat" style="transition-delay:1.0s">
+          <div class="hero-stat-val"><span class="counter" data-target="24">0</span>%</div>
+          <div class="hero-stat-label">Women overweight or obese</div>
+        </div>
+        <div class="hero-stat" style="transition-delay:1.2s">
+          <div class="hero-stat-val"><span class="counter" data-target="21">0</span>%</div>
+          <div class="hero-stat-label">Women with high blood pressure</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Globe Visual (component 2 — pure canvas globe) -->
+    <div class="hero-visual">
+      <div style="position:relative">
+        <div id="globe-canvas-wrap">
+          <canvas id="globe" width="460" height="460"></canvas>
+        </div>
+        <!-- Floating review cards (Docshield-style) -->
+        <div class="review-card card-tl">
+          <strong>Bihar anaemia rate</strong>
+          63.5% of women affected — highest in India
+          <div class="review-card-meta">
+            <div class="review-card-avatar">BR</div>
+            Bihar · BIMARU Region
+          </div>
+        </div>
+        <div class="review-card card-br">
+          <strong>Kerala leads outcomes</strong>
+          Lowest child anaemia at 39.4%; best blood sugar management
+          <div class="review-card-meta">
+            <div class="review-card-avatar">KL</div>
+            Kerala · South India
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── LOGO CLOUD (component 5 — data partners) ── -->
+<div id="logo-cloud">
+  <div class="logo-cloud-inner">
+    <div class="logo-cloud-header">
+      <h3><span class="text-muted">Data indexed from</span> <strong>trusted sources.</strong></h3>
+    </div>
+    <div class="logo-cloud-divider"></div>
+    <div class="logo-marquee-wrap">
+      <div class="logo-marquee" id="logo-marquee"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ── OVERVIEW ── -->
+<section id="overview">
+  <div class="section-inner">
+    <div class="section-tag reveal">Health Indicators</div>
+    <h2 class="reveal delay-1">Four dimensions of<br>public health burden</h2>
+    <p class="section-desc reveal delay-2">The NFHS-5 (2019-20) dataset tracks eight sub-indicators across all Indian states, split by gender and demographic group. This analysis focuses on the four most policy-relevant clusters.</p>
+    <div class="indicators-grid">
+      <div class="ind-card blue reveal delay-1">
+        <div class="ind-icon">🫀</div>
+        <h3>Obesity</h3>
+        <p>Percentage of adults with BMI ≥ 25.0 kg/m², tracked separately for men and women aged 15+.</p>
+        <div class="ind-val" style="color:var(--blue-mid)"><span class="counter" data-target="24">0</span>%</div>
+        <div class="ind-sub">National avg — Women overweight/obese</div>
+      </div>
+      <div class="ind-card rose reveal delay-2">
+        <div class="ind-icon">🩸</div>
+        <h3>Anaemia</h3>
+        <p>Covers women (15-49 yrs) and children (6-59 months). India carries the world's largest anaemia burden.</p>
+        <div class="ind-val" style="color:var(--rose)"><span class="counter" data-target="57">0</span>%</div>
+        <div class="ind-sub">National avg — Children with anaemia</div>
+      </div>
+      <div class="ind-card teal reveal delay-3">
+        <div class="ind-icon">💊</div>
+        <h3>Hypertension</h3>
+        <p>Elevated blood pressure (Systolic ≥140 or Diastolic ≥90 mm Hg) or currently on medication.</p>
+        <div class="ind-val" style="color:var(--teal)"><span class="counter" data-target="21">0</span>%</div>
+        <div class="ind-sub">National avg — Women with hypertension</div>
+      </div>
+      <div class="ind-card green reveal delay-4">
+        <div class="ind-icon">🧪</div>
+        <h3>High Blood Sugar</h3>
+        <p>Blood sugar > 140 mg/dl or on medication. Proxy indicator for undiagnosed and managed diabetes.</p>
+        <div class="ind-val" style="color:var(--green)"><span class="counter" data-target="14">0</span>%</div>
+        <div class="ind-sub">National avg — Women with high blood sugar</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── BIG TEXT SECTION (Docshield difference style) ── -->
+<section id="big-text">
+  <div class="section-inner">
+    <div class="big-text-layout">
+      <div>
+        <div class="section-tag reveal">The Atlas Difference</div>
+        <div class="big-headline reveal delay-1">The data<br><span>India</span><br>needed.</div>
+      </div>
+      <div class="big-text-right">
+        <div class="big-text-card reveal delay-1">
+          <div class="btc-stat">36 States & UTs</div>
+          <h4>Complete Coverage</h4>
+          <p>Every Indian state and union territory mapped with 8 health sub-indicators, broken down by gender and age group.</p>
+        </div>
+        <div class="big-text-card reveal delay-2">
+          <div class="btc-stat">r = 0.72</div>
+          <h4>Statistical Correlations</h4>
+          <p>Pearson correlation analysis reveals the co-occurrence of hypertension and blood sugar — a metabolic risk trap for certain geographies.</p>
+        </div>
+        <div class="big-text-card reveal delay-3">
+          <div class="btc-stat">15 min</div>
+          <h4>Instant State Deep-Dives</h4>
+          <p>Select any state to see its full health profile with relative burden bars, gender gaps, and regional context — no expertise required.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── CRM DEMO SECTION (component 1 — adapted as analytics demo) ── -->
+<section id="crm-demo">
+  <div class="section-inner">
+    <div class="crm-section-header reveal">
+      <div class="section-tag" style="justify-content:center">Interactive Analytics</div>
+      <h2>Your public health<br>co-pilot.</h2>
+      <p class="section-desc" style="margin:0 auto;text-align:center">Watch insights surface in real time. The Atlas pre-populates all state-level indicators and surfaces the burden differentials you care about.</p>
+    </div>
+    <div class="crm-demo-layout reveal delay-2">
+      <div class="crm-benefits">
+        <div class="crm-benefit active">
+          <div class="crm-benefit-icon">📊</div>
+          <div>
+            <h4>State-level benchmarking</h4>
+            <p>Compare any state against the national average across all 8 indicators with one click.</p>
+          </div>
+        </div>
+        <div class="crm-benefit">
+          <div class="crm-benefit-icon">🔗</div>
+          <div>
+            <h4>Correlation discovery</h4>
+            <p>Scatter plots with OLS regression lines reveal unexpected co-occurrence patterns between indicators.</p>
+          </div>
+        </div>
+        <div class="crm-benefit">
+          <div class="crm-benefit-icon">🗺️</div>
+          <div>
+            <h4>Geographic clustering</h4>
+            <p>The BIMARU bloc, Southern developmental divergence, and North-East outliers emerge visually.</p>
+          </div>
+        </div>
+        <div class="crm-benefit">
+          <div class="crm-benefit-icon">⚡</div>
+          <div>
+            <h4>Zero setup required</h4>
+            <p>All 36 states pre-loaded. No API keys, no logins. Open and explore immediately.</p>
+          </div>
+        </div>
+      </div>
+      <div class="crm-dashboard">
+        <div class="crm-dash-header">
+          <div class="dash-dot r"></div>
+          <div class="dash-dot y"></div>
+          <div class="dash-dot g"></div>
+          <span class="crm-dash-title">NFHS-5 State Dashboard · Kerala</span>
+        </div>
+        <div class="crm-dash-body">
+          <div class="crm-dash-grid">
+            <div class="crm-mini-stat">
+              <div class="cms-label">Obesity · Women</div>
+              <div class="cms-val" style="color:var(--blue-mid)">32.5%</div>
+              <div class="cms-change" style="color:var(--amber)">▲ 8.5pp above nat. avg</div>
+            </div>
+            <div class="crm-mini-stat">
+              <div class="cms-label">Anaemia · Women</div>
+              <div class="cms-val" style="color:var(--rose)">34.5%</div>
+              <div class="cms-change" style="color:var(--green)">▼ Best in class</div>
+            </div>
+            <div class="crm-mini-stat">
+              <div class="cms-label">Hypertension</div>
+              <div class="cms-val" style="color:var(--teal)">20.5%</div>
+              <div class="cms-change" style="color:var(--text-muted)">≈ National avg</div>
+            </div>
+            <div class="crm-mini-stat">
+              <div class="cms-label">Blood Sugar</div>
+              <div class="cms-val" style="color:var(--green)">18.5%</div>
+              <div class="cms-change" style="color:var(--rose)">▲ Highest in South</div>
+            </div>
+          </div>
+          <div class="crm-bar-chart" id="crm-bars">
+            <div style="font-size:0.7rem;color:var(--text-muted);letter-spacing:0.06em;text-transform:uppercase;margin-bottom:0.8rem">Relative burden vs national maximum</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── STATE EXPLORER ── -->
+<section id="explorer">
+  <div class="section-inner">
+    <div class="section-tag reveal">Interactive Explorer</div>
+    <h2 class="reveal delay-1">Drill into any state</h2>
+    <p class="section-desc reveal delay-2">Select a state to see its health profile across all eight sub-indicators. Data sourced from NFHS-5 (2019-20).</p>
+    <div class="explorer-layout reveal delay-3">
+      <div class="state-list-wrap">
+        <div class="state-search">
+          <input type="text" id="state-search" placeholder="Search state…" autocomplete="off">
+        </div>
+        <div class="state-list" id="state-list"></div>
+      </div>
+      <div class="state-detail" id="state-detail">
+        <div style="display:flex;align-items:center;justify-content:center;height:100%;flex-direction:column;gap:1rem;opacity:0.4">
+          <div style="font-size:3rem">🗺️</div>
+          <div style="font-family:'Space Grotesk',sans-serif;font-size:1.1rem;font-weight:600">Select a state to explore</div>
+          <div style="font-size:0.82rem;color:var(--text-muted);text-align:center;max-width:260px">Click any state in the list to see its complete health indicator profile</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── CORRELATIONS ── -->
+<section id="correlations">
+  <div class="section-inner">
+    <div class="section-tag reveal">Statistical Analysis</div>
+    <h2 class="reveal delay-1">The paradox of<br>malnutrition & obesity</h2>
+    <p class="section-desc reveal delay-2">States with high child anaemia don't uniformly have low obesity. The "double burden" hypothesis plays out across Indian states — anaemia and obesity coexist in the same geographies.</p>
+    <div class="corr-layout">
+      <div class="corr-card reveal delay-2">
+        <h3>Anaemia vs Obesity — Women</h3>
+        <p>Negative correlation (r ≈ −0.42). Southern and coastal states cluster in low-anaemia, high-obesity quadrant. BIMARU states dominate high anaemia territory.</p>
+        <div class="scatter-canvas"><canvas id="scatter1" width="500" height="280"></canvas></div>
+      </div>
+      <div class="corr-card reveal delay-3">
+        <h3>Hypertension vs Blood Sugar</h3>
+        <p>Strong positive correlation (r ≈ 0.72). States managing one NCD tend to face the other — suggesting shared lifestyle and metabolic risk factors.</p>
+        <div class="scatter-canvas"><canvas id="scatter2" width="500" height="280"></canvas></div>
+      </div>
+    </div>
+    <div class="corr-card reveal" style="margin-top:2rem">
+      <h3>Correlation Matrix — All 8 Indicators</h3>
+      <p style="margin-bottom:1.5rem">Pairwise Pearson correlations across states. Warm = positive, cool = negative.</p>
+      <div id="corr-matrix" style="overflow-x:auto"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ── TESTIMONIALS (component 3) ── -->
+<section id="testimonials">
+  <div class="section-inner">
+    <div class="testimonials-header reveal">
+      <div class="section-tag" style="justify-content:center">Insights from the Data</div>
+      <h2>What the numbers<br>tell us</h2>
+      <p class="section-desc" style="margin:0 auto;text-align:center">Key findings from the NFHS-5 analysis, surfaced for policymakers and researchers.</p>
+    </div>
+    <div class="testimonials-grid">
+      <div class="testimonial-card reveal delay-1">
+        <div class="test-stars">★★★★★</div>
+        <div class="test-quote">"Punjab's obesity rate in women (41%) mirrors Western lifestyle transitions while anaemia (52.7%) remains high — a double burden state that needs integrated intervention."</div>
+        <div class="test-author">
+          <div class="test-avatar">PB</div>
+          <div>
+            <div class="test-name">Punjab Finding</div>
+            <div class="test-role">North India · NFHS-5 Analysis</div>
+          </div>
+        </div>
+      </div>
+      <div class="testimonial-card reveal delay-2">
+        <div class="test-stars">★★★★★</div>
+        <div class="test-quote">"Kerala demonstrates that human development investment pays off — lowest anaemia burden at 34.5%, highest educational attainment correlation with health outcomes."</div>
+        <div class="test-author">
+          <div class="test-avatar">KL</div>
+          <div>
+            <div class="test-name">Kerala Finding</div>
+            <div class="test-role">South India · Development Leader</div>
+          </div>
+        </div>
+      </div>
+      <div class="testimonial-card reveal delay-3">
+        <div class="test-stars">★★★★★</div>
+        <div class="test-quote">"Rajasthan's child anaemia at 74.2% — the highest nationally — signals urgent need for iron supplementation programs in ICDS centers across the state."</div>
+        <div class="test-author">
+          <div class="test-avatar">RJ</div>
+          <div>
+            <div class="test-name">Rajasthan Finding</div>
+            <div class="test-role">North West India · Priority State</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── RANKINGS ── -->
+<section id="rankings">
+  <div class="section-inner">
+    <div class="section-tag reveal">State Rankings</div>
+    <h2 class="reveal delay-1">Who leads, who lags</h2>
+    <p class="section-desc reveal delay-2">Top 10 states ranked by each health indicator. Toggle between indicators to compare burden distribution.</p>
+    <div class="rank-tabs reveal delay-3" id="rank-tabs"></div>
+    <div class="rank-list reveal delay-4" id="rank-list"></div>
+  </div>
+</section>
+
+<!-- ── METHODOLOGY ── -->
+<section id="methodology">
+  <div class="section-inner">
+    <div class="section-tag reveal">Project Methods</div>
+    <h2 class="reveal delay-1">Built in three phases</h2>
+    <p class="section-desc reveal delay-2">A reproducible EDA pipeline from raw NFHS-5 CSV to interactive geographic visualizations.</p>
+    <div class="method-grid">
+      <div class="method-step reveal delay-1">
+        <div class="step-num">01</div>
+        <h3>Data Ingestion & Cleaning</h3>
+        <p>Downloaded from Kaggle via <code>kagglehub</code>. Standardized column names, pivoted sub-indicator rows into a per-state feature matrix, coerced numerics, handled special characters and missing values.</p>
+        <div class="tech-tags">
+          <span class="tech-tag">pandas</span>
+          <span class="tech-tag">kagglehub</span>
+          <span class="tech-tag">numpy</span>
+        </div>
+      </div>
+      <div class="method-step reveal delay-2">
+        <div class="step-num">02</div>
+        <h3>EDA & Statistical Analysis</h3>
+        <p>Computed Pearson correlation matrix across all 8 indicators. Generated scatter plots with OLS regression lines. Identified the gender obesity gap (Women − Men BMI differential) as a derived feature.</p>
+        <div class="tech-tags">
+          <span class="tech-tag">matplotlib</span>
+          <span class="tech-tag">numpy.polyfit</span>
+          <span class="tech-tag">correlation matrix</span>
+        </div>
+      </div>
+      <div class="method-step reveal delay-3">
+        <div class="step-num">03</div>
+        <h3>Geographic Visualization</h3>
+        <p>Choropleth maps via Folium + CartoDB Positron tiles. Circle markers at state capitals encode blood sugar and anaemia rates. Saved as standalone HTML for deployment.</p>
+        <div class="tech-tags">
+          <span class="tech-tag">folium</span>
+          <span class="tech-tag">GeoJSON</span>
+          <span class="tech-tag">CartoDB</span>
+        </div>
+      </div>
+    </div>
+    <div class="dataset-stats reveal">
+      <div class="ds-stat">
+        <div class="ds-stat-val" style="color:var(--blue-mid)">36</div>
+        <div class="ds-stat-label">States & UTs</div>
+      </div>
+      <div class="ds-stat">
+        <div class="ds-stat-val" style="color:var(--teal)">8</div>
+        <div class="ds-stat-label">Health Sub-indicators</div>
+      </div>
+      <div class="ds-stat">
+        <div class="ds-stat-val" style="color:var(--rose)">288</div>
+        <div class="ds-stat-label">Data Points</div>
+      </div>
+      <div class="ds-stat">
+        <div class="ds-stat-val" style="color:var(--green)">28</div>
+        <div class="ds-stat-label">Correlations Mapped</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── CINEMATIC FOOTER (component 4) ── -->
+<footer id="cinematic-footer">
+  <div class="footer-bg-grid"></div>
+  <div class="footer-orb footer-orb-a"></div>
+  <div class="footer-orb footer-orb-b"></div>
+  <!-- Animated scan lines -->
+  <div class="footer-line"></div>
+  <div class="footer-line"></div>
+  <div class="footer-line"></div>
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <div class="footer-logo">
+          <div class="footer-logo-badge">🏥</div>
+          NFHS·5 Atlas
+        </div>
+        <p>An open-source exploratory data analysis of India's National Family Health Survey (2019–20), surfacing state-level health disparities for researchers and policymakers.</p>
+      </div>
+      <div class="footer-col">
+        <h5>Explore</h5>
+        <a href="#overview">Health Overview</a>
+        <a href="#explorer">State Explorer</a>
+        <a href="#correlations">Correlations</a>
+        <a href="#rankings">State Rankings</a>
+      </div>
+      <div class="footer-col">
+        <h5>Analysis</h5>
+        <a href="#big-text">Key Insights</a>
+        <a href="#testimonials">Findings</a>
+        <a href="#methodology">Methodology</a>
+        <a href="#crm-demo">Dashboard Demo</a>
+      </div>
+      <div class="footer-col">
+        <h5>Data Sources</h5>
+        <a href="#">NFHS-5 Official Report</a>
+        <a href="#">Ministry of Health</a>
+        <a href="#">IIPS Mumbai</a>
+        <a href="#">Kaggle Dataset</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="footer-copy">© 2024 NFHS-5 Atlas · Data: Ministry of Health & Family Welfare, India · Built for public health research</div>
+      <div class="footer-badge">India 2019–20</div>
+    </div>
+  </div>
+</footer>
+
+
+<!-- ══════════════════════════════════════════════════════════
+     INTERACTIVE FOLIUM MAP SECTION (API-powered)
+     ══════════════════════════════════════════════════════════ -->
+<section id="map-section" style="padding:7rem 3.5rem;background:linear-gradient(160deg,#eef2ff 0%,#dbeafe 100%)">
+  <div class="section-inner">
+    <div class="section-tag">📍 Geographic Intelligence</div>
+    <h2>Interactive Health Risk Map</h2>
+    <p class="section-desc" style="margin-bottom:2.5rem">
+      State-level Composite Health Risk choropleth generated live by the Python analysis pipeline.
+      Circle markers encode risk tier; click any state for a full indicator breakdown.
+    </p>
+
+    <!-- Risk Tier Legend -->
+    <div id="map-legend" style="display:flex;gap:1.2rem;flex-wrap:wrap;margin-bottom:1.5rem">
+      <div style="display:flex;align-items:center;gap:0.5rem;font-size:0.82rem;font-weight:500;color:#0f1535">
+        <span style="width:12px;height:12px;border-radius:50%;background:#8b0000;display:inline-block"></span>Critical
+      </div>
+      <div style="display:flex;align-items:center;gap:0.5rem;font-size:0.82rem;font-weight:500;color:#0f1535">
+        <span style="width:12px;height:12px;border-radius:50%;background:#ef4444;display:inline-block"></span>High
+      </div>
+      <div style="display:flex;align-items:center;gap:0.5rem;font-size:0.82rem;font-weight:500;color:#0f1535">
+        <span style="width:12px;height:12px;border-radius:50%;background:#f59e0b;display:inline-block"></span>Moderate
+      </div>
+      <div style="display:flex;align-items:center;gap:0.5rem;font-size:0.82rem;font-weight:500;color:#0f1535">
+        <span style="width:12px;height:12px;border-radius:50%;background:#10b981;display:inline-block"></span>Low
+      </div>
+    </div>
+
+    <!-- Map Container -->
+    <div id="folium-map-wrap" style="border-radius:20px;overflow:hidden;box-shadow:0 8px 40px rgba(37,99,235,0.15);min-height:520px;background:#f0f4ff;display:flex;align-items:center;justify-content:center">
+      <div id="map-loading" style="text-align:center;padding:3rem">
+        <div style="font-size:3rem;animation:spin 1.5s linear infinite;display:inline-block">🗺️</div>
+        <div style="color:#334155;font-size:1rem;margin-top:1rem;font-weight:500">Loading interactive map…</div>
+        <div style="color:#64748b;font-size:0.85rem;margin-top:0.4rem">Fetching Folium output from backend</div>
+      </div>
+    </div>
+    <p style="margin-top:1rem;font-size:0.78rem;color:#94a3b8;text-align:center">
+      ⚡ Map rendered by FastAPI + Folium · Requires <code>india_state.geojson</code> in <code>data/</code> folder
+    </p>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════
+     RISK INDEX TABLE SECTION (API-powered)
+     ══════════════════════════════════════════════════════════ -->
+<section id="risk-table-section" style="padding:7rem 3.5rem;background:#fff">
+  <div class="section-inner">
+    <div class="section-tag">📊 Composite Risk Index</div>
+    <h2>State Health Risk Rankings</h2>
+    <p class="section-desc" style="margin-bottom:2rem">
+      Computed via Task 1 (min-max normalised weighted composite) and Task 2 (BFS graph clustering).
+      Data served live from the FastAPI pipeline.
+    </p>
+
+    <!-- Filter bar -->
+    <div style="display:flex;gap:1rem;margin-bottom:1.5rem;flex-wrap:wrap;align-items:center">
+      <input id="risk-search" placeholder="Filter state…"
+        style="padding:0.6rem 1.2rem;border:1px solid rgba(37,99,235,0.2);border-radius:100px;
+               font-size:0.85rem;outline:none;font-family:Inter,sans-serif;width:220px">
+      <div id="tier-filter" style="display:flex;gap:0.5rem;flex-wrap:wrap">
+        <button class="tier-btn active" data-tier="All"
+          style="padding:0.45rem 1.1rem;border-radius:100px;border:1.5px solid rgba(37,99,235,0.25);
+                 background:#fff;font-size:0.78rem;font-weight:600;cursor:pointer;font-family:Inter,sans-serif">All</button>
+        <button class="tier-btn" data-tier="Critical"
+          style="padding:0.45rem 1.1rem;border-radius:100px;border:1.5px solid rgba(139,0,0,0.3);
+                 background:#fff;font-size:0.78rem;font-weight:600;cursor:pointer;font-family:Inter,sans-serif;color:#8b0000">Critical</button>
+        <button class="tier-btn" data-tier="High"
+          style="padding:0.45rem 1.1rem;border-radius:100px;border:1.5px solid rgba(239,68,68,0.3);
+                 background:#fff;font-size:0.78rem;font-weight:600;cursor:pointer;font-family:Inter,sans-serif;color:#ef4444">High</button>
+        <button class="tier-btn" data-tier="Moderate"
+          style="padding:0.45rem 1.1rem;border-radius:100px;border:1.5px solid rgba(245,158,11,0.3);
+                 background:#fff;font-size:0.78rem;font-weight:600;cursor:pointer;font-family:Inter,sans-serif;color:#d97706">Moderate</button>
+        <button class="tier-btn" data-tier="Low"
+          style="padding:0.45rem 1.1rem;border-radius:100px;border:1.5px solid rgba(16,185,129,0.3);
+                 background:#fff;font-size:0.78rem;font-weight:600;cursor:pointer;font-family:Inter,sans-serif;color:#059669">Low</button>
+      </div>
+    </div>
+
+    <div id="risk-table-wrap" style="border-radius:16px;overflow:hidden;border:1px solid rgba(37,99,235,0.1);box-shadow:0 4px 20px rgba(37,99,235,0.07)">
+      <table id="risk-table" style="width:100%;border-collapse:collapse;font-size:0.85rem">
+        <thead>
+          <tr style="background:linear-gradient(135deg,#0f1535,#1e2d6b);color:#fff">
+            <th style="padding:1rem 1.2rem;text-align:left;font-family:'Space Grotesk',sans-serif;font-size:0.75rem;letter-spacing:0.08em;text-transform:uppercase">Rank</th>
+            <th style="padding:1rem 1.2rem;text-align:left;font-family:'Space Grotesk',sans-serif;font-size:0.75rem;letter-spacing:0.08em;text-transform:uppercase">State</th>
+            <th style="padding:1rem 1.2rem;text-align:center;font-family:'Space Grotesk',sans-serif;font-size:0.75rem;letter-spacing:0.08em;text-transform:uppercase">Risk Score</th>
+            <th style="padding:1rem 1.2rem;text-align:center;font-family:'Space Grotesk',sans-serif;font-size:0.75rem;letter-spacing:0.08em;text-transform:uppercase">Risk Tier</th>
+            <th style="padding:1rem 1.2rem;text-align:center;font-family:'Space Grotesk',sans-serif;font-size:0.75rem;letter-spacing:0.08em;text-transform:uppercase">BFS Cluster</th>
+            <th style="padding:1rem 1.2rem;text-align:center;font-family:'Space Grotesk',sans-serif;font-size:0.75rem;letter-spacing:0.08em;text-transform:uppercase">Region</th>
+          </tr>
+        </thead>
+        <tbody id="risk-table-body">
+          <tr><td colspan="6" style="padding:2rem;text-align:center;color:#94a3b8">Loading data from API…</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p id="risk-table-count" style="margin-top:0.8rem;font-size:0.78rem;color:#94a3b8;text-align:right"></p>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════
+     BFS CLUSTER SECTION (API-powered)
+     ══════════════════════════════════════════════════════════ -->
+<section id="cluster-section" style="padding:7rem 3.5rem;background:var(--grad-section)">
+  <div class="section-inner">
+    <div class="section-tag">🔗 Graph Clustering</div>
+    <h2>BFS State Health Clusters</h2>
+    <p class="section-desc" style="margin-bottom:2.5rem">
+      States connected by edges if their Composite Risk scores differ by ≤ 0.05.
+      BFS traversal groups similar-risk states into clusters.
+    </p>
+    <div id="cluster-grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:1.2rem">
+      <div style="text-align:center;padding:2rem;color:#94a3b8">Loading clusters…</div>
+    </div>
+  </div>
+</section>
+  </div>
+</section>
+
+<!-- ── CINEMATIC FOOTER (component 4) ── -->
+<footer id="cinematic-footer">
+  <div class="footer-bg-grid"></div>
+  <div class="footer-orb footer-orb-a"></div>
+  <div class="footer-orb footer-orb-b"></div>
+  <!-- Animated scan lines -->
+  <div class="footer-line"></div>
+  <div class="footer-line"></div>
+  <div class="footer-line"></div>
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <div class="footer-logo">
+          <div class="footer-logo-badge">🏥</div>
+          NFHS·5 Atlas
+        </div>
+        <p>An open-source exploratory data analysis of India's National Family Health Survey (2019–20), surfacing state-level health disparities for researchers and policymakers.</p>
+      </div>
+      <div class="footer-col">
+        <h5>Explore</h5>
+        <a href="#overview">Health Overview</a>
+        <a href="#explorer">State Explorer</a>
+        <a href="#correlations">Correlations</a>
+        <a href="#rankings">State Rankings</a>
+      </div>
+      <div class="footer-col">
+        <h5>Analysis</h5>
+        <a href="#big-text">Key Insights</a>
+        <a href="#testimonials">Findings</a>
+        <a href="#methodology">Methodology</a>
+        <a href="#crm-demo">Dashboard Demo</a>
+      </div>
+      <div class="footer-col">
+        <h5>Data Sources</h5>
+        <a href="#">NFHS-5 Official Report</a>
+        <a href="#">Ministry of Health</a>
+        <a href="#">IIPS Mumbai</a>
+        <a href="#">Kaggle Dataset</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="footer-copy">© 2024 NFHS-5 Atlas · Data: Ministry of Health & Family Welfare, India · Built for public health research</div>
+      <div class="footer-badge">India 2019–20</div>
+    </div>
+  </div>
+</footer>
+
+
+<script>
+// ═══════════════════════════════════════════════════════════════════════════
+// NFHS-5 DASHBOARD — Full Script (Static + API-powered dynamic sections)
+// ═══════════════════════════════════════════════════════════════════════════
+
+// ── CONFIG ──────────────────────────────────────────────────────────────────
+const API_BASE = '';   // Empty = same origin (FastAPI serves this file)
+                       // Change to 'http://localhost:8000' if running separately
+
+// ─────────────────────────────────────────────────────────────────────────────
+// STATIC STATE DATA (used by original components: globe, scatter, crm bars etc.)
+// ─────────────────────────────────────────────────────────────────────────────
+let stateData = [
+  { state:"Andhra Pradesh", abbr:"AP", region:"South", Obesity_Women:33.5, Obesity_Men:25.0, Anaemia_Women:44.0, Anaemia_Children:55.4, BloodSugar_Women:15.0, BloodSugar_Men:18.5, Hypertension_Women:16.5, Hypertension_Men:26.5 },
+  { state:"Arunachal Pradesh", abbr:"AR", region:"North East", Obesity_Women:23.5, Obesity_Men:19.0, Anaemia_Women:35.5, Anaemia_Children:52.0, BloodSugar_Women:9.5, BloodSugar_Men:11.5, Hypertension_Women:18.0, Hypertension_Men:27.5 },
+  { state:"Assam", abbr:"AS", region:"North East", Obesity_Women:17.5, Obesity_Men:11.0, Anaemia_Women:54.5, Anaemia_Children:68.4, BloodSugar_Women:8.5, BloodSugar_Men:10.5, Hypertension_Women:13.0, Hypertension_Men:20.0 },
+  { state:"Bihar", abbr:"BR", region:"East", Obesity_Women:11.0, Obesity_Men:7.5, Anaemia_Women:63.5, Anaemia_Children:69.4, BloodSugar_Women:7.5, BloodSugar_Men:9.0, Hypertension_Women:10.5, Hypertension_Men:16.5 },
+  { state:"Chhattisgarh", abbr:"CG", region:"Central", Obesity_Women:17.5, Obesity_Men:11.0, Anaemia_Women:47.0, Anaemia_Children:62.6, BloodSugar_Women:9.5, BloodSugar_Men:11.5, Hypertension_Women:13.0, Hypertension_Men:20.5 },
+  { state:"Goa", abbr:"GA", region:"West", Obesity_Women:37.0, Obesity_Men:31.0, Anaemia_Women:41.5, Anaemia_Children:53.5, BloodSugar_Women:16.5, BloodSugar_Men:20.5, Hypertension_Women:22.0, Hypertension_Men:33.5 },
+  { state:"Gujarat", abbr:"GJ", region:"West", Obesity_Women:29.0, Obesity_Men:21.5, Anaemia_Women:52.5, Anaemia_Children:78.9, BloodSugar_Women:12.5, BloodSugar_Men:15.5, Hypertension_Women:16.5, Hypertension_Men:25.5 },
+  { state:"Haryana", abbr:"HR", region:"North", Obesity_Women:30.5, Obesity_Men:22.0, Anaemia_Women:58.5, Anaemia_Children:70.5, BloodSugar_Women:12.5, BloodSugar_Men:15.5, Hypertension_Women:15.5, Hypertension_Men:25.0 },
+  { state:"Himachal Pradesh", abbr:"HP", region:"North", Obesity_Women:28.5, Obesity_Men:22.0, Anaemia_Women:54.5, Anaemia_Children:64.3, BloodSugar_Women:13.5, BloodSugar_Men:16.5, Hypertension_Women:20.5, Hypertension_Men:31.5 },
+  { state:"Jharkhand", abbr:"JH", region:"East", Obesity_Women:12.5, Obesity_Men:7.5, Anaemia_Women:65.5, Anaemia_Children:67.4, BloodSugar_Women:8.0, BloodSugar_Men:9.5, Hypertension_Women:11.5, Hypertension_Men:17.5 },
+  { state:"Karnataka", abbr:"KA", region:"South", Obesity_Women:33.5, Obesity_Men:24.5, Anaemia_Women:45.5, Anaemia_Children:59.6, BloodSugar_Women:15.0, BloodSugar_Men:19.0, Hypertension_Women:16.5, Hypertension_Men:26.5 },
+  { state:"Kerala", abbr:"KL", region:"South", Obesity_Women:32.5, Obesity_Men:28.0, Anaemia_Women:34.5, Anaemia_Children:39.4, BloodSugar_Women:18.5, BloodSugar_Men:23.5, Hypertension_Women:20.5, Hypertension_Men:31.5 },
+  { state:"Madhya Pradesh", abbr:"MP", region:"Central", Obesity_Women:16.0, Obesity_Men:10.0, Anaemia_Women:54.7, Anaemia_Children:72.7, BloodSugar_Women:9.0, BloodSugar_Men:10.5, Hypertension_Women:11.5, Hypertension_Men:18.0 },
+  { state:"Maharashtra", abbr:"MH", region:"West", Obesity_Women:29.5, Obesity_Men:21.5, Anaemia_Women:45.7, Anaemia_Children:68.9, BloodSugar_Women:13.5, BloodSugar_Men:16.5, Hypertension_Women:15.5, Hypertension_Men:24.5 },
+  { state:"Manipur", abbr:"MN", region:"North East", Obesity_Women:28.5, Obesity_Men:19.5, Anaemia_Women:31.5, Anaemia_Children:49.5, BloodSugar_Women:11.5, BloodSugar_Men:14.5, Hypertension_Women:20.0, Hypertension_Men:30.5 },
+  { state:"Meghalaya", abbr:"ML", region:"North East", Obesity_Women:20.0, Obesity_Men:13.5, Anaemia_Women:45.5, Anaemia_Children:62.5, BloodSugar_Women:8.5, BloodSugar_Men:10.0, Hypertension_Women:14.0, Hypertension_Men:22.5 },
+  { state:"Mizoram", abbr:"MZ", region:"North East", Obesity_Women:32.5, Obesity_Men:24.5, Anaemia_Women:35.5, Anaemia_Children:50.0, BloodSugar_Women:11.5, BloodSugar_Men:14.0, Hypertension_Women:18.5, Hypertension_Men:28.5 },
+  { state:"Nagaland", abbr:"NL", region:"North East", Obesity_Women:26.5, Obesity_Men:19.4, Anaemia_Women:28.5, Anaemia_Children:55.8, BloodSugar_Women:11.0, BloodSugar_Men:12.5, Hypertension_Women:16.5, Hypertension_Men:24.8 },
+  { state:"Odisha", abbr:"OD", region:"East", Obesity_Women:18.5, Obesity_Men:11.5, Anaemia_Women:63.2, Anaemia_Children:61.3, BloodSugar_Women:10.5, BloodSugar_Men:12.5, Hypertension_Women:14.0, Hypertension_Men:22.5 },
+  { state:"Punjab", abbr:"PB", region:"North", Obesity_Women:41.0, Obesity_Men:33.5, Anaemia_Women:52.7, Anaemia_Children:61.5, BloodSugar_Women:16.2, BloodSugar_Men:18.5, Hypertension_Women:23.5, Hypertension_Men:35.8 },
+  { state:"Rajasthan", abbr:"RJ", region:"North West", Obesity_Women:22.5, Obesity_Men:16.2, Anaemia_Women:54.4, Anaemia_Children:74.2, BloodSugar_Women:10.5, BloodSugar_Men:12.4, Hypertension_Women:13.8, Hypertension_Men:21.7 },
+  { state:"Sikkim", abbr:"SK", region:"North East", Obesity_Women:35.5, Obesity_Men:30.2, Anaemia_Women:38.5, Anaemia_Children:53.2, BloodSugar_Women:15.6, BloodSugar_Men:18.5, Hypertension_Women:23.5, Hypertension_Men:35.8 },
+  { state:"Tamil Nadu", abbr:"TN", region:"South", Obesity_Women:40.5, Obesity_Men:31.0, Anaemia_Women:45.5, Anaemia_Children:57.3, BloodSugar_Women:17.5, BloodSugar_Men:21.5, Hypertension_Women:20.0, Hypertension_Men:32.0 },
+  { state:"Telangana", abbr:"TS", region:"South", Obesity_Women:38.5, Obesity_Men:28.5, Anaemia_Women:47.5, Anaemia_Children:55.5, BloodSugar_Women:16.5, BloodSugar_Men:20.5, Hypertension_Women:17.5, Hypertension_Men:28.5 },
+  { state:"Tripura", abbr:"TR", region:"North East", Obesity_Women:21.5, Obesity_Men:13.5, Anaemia_Women:53.5, Anaemia_Children:72.0, BloodSugar_Women:10.8, BloodSugar_Men:12.0, Hypertension_Women:15.0, Hypertension_Men:22.5 },
+  { state:"Uttar Pradesh", abbr:"UP", region:"North", Obesity_Women:14.5, Obesity_Men:9.2, Anaemia_Women:50.4, Anaemia_Children:66.4, BloodSugar_Women:9.2, BloodSugar_Men:10.8, Hypertension_Women:12.0, Hypertension_Men:18.5 },
+  { state:"Uttarakhand", abbr:"UK", region:"North", Obesity_Women:25.5, Obesity_Men:18.5, Anaemia_Women:55.5, Anaemia_Children:64.2, BloodSugar_Women:12.5, BloodSugar_Men:14.8, Hypertension_Women:18.5, Hypertension_Men:28.5 },
+  { state:"West Bengal", abbr:"WB", region:"East", Obesity_Women:24.5, Obesity_Men:15.8, Anaemia_Women:62.7, Anaemia_Children:69.5, BloodSugar_Women:11.5, BloodSugar_Men:13.5, Hypertension_Women:16.0, Hypertension_Men:24.5 },
+  { state:"Delhi", abbr:"DL", region:"North", Obesity_Women:34.5, Obesity_Men:28.0, Anaemia_Women:54.2, Anaemia_Children:65.5, BloodSugar_Women:14.5, BloodSugar_Men:17.5, Hypertension_Women:18.5, Hypertension_Men:28.8 },
+  { state:"Jammu & Kashmir", abbr:"JK", region:"North", Obesity_Women:26.5, Obesity_Men:20.5, Anaemia_Women:47.5, Anaemia_Children:62.5, BloodSugar_Women:12.5, BloodSugar_Men:15.5, Hypertension_Women:21.5, Hypertension_Men:33.5 },
+  { state:"Puducherry", abbr:"PY", region:"South", Obesity_Women:42.5, Obesity_Men:35.0, Anaemia_Women:44.5, Anaemia_Children:55.5, BloodSugar_Women:19.5, BloodSugar_Men:24.5, Hypertension_Women:24.5, Hypertension_Men:37.5 }
+];
+
+const rankIndicators = [
+  { key:"Obesity_Women", label:"Obesity (Women)", color:"#2563eb" },
+  { key:"Obesity_Men", label:"Obesity (Men)", color:"#60a5fa" },
+  { key:"Anaemia_Women", label:"Anaemia (Women)", color:"#f43f5e" },
+  { key:"Anaemia_Children", label:"Anaemia (Children)", color:"#fb7185" },
+  { key:"Hypertension_Women", label:"Hypertension (Women)", color:"#0ea5e9" },
+  { key:"Hypertension_Men", label:"Hypertension (Men)", color:"#38bdf8" },
+  { key:"BloodSugar_Women", label:"Blood Sugar (Women)", color:"#10b981" },
+  { key:"BloodSugar_Men", label:"Blood Sugar (Men)", color:"#34d399" }
+];
+
+// ─────────────────────────────────────────────────────────────────────────────
+// API HELPERS
+// ─────────────────────────────────────────────────────────────────────────────
+async function apiFetch(path) {
+  const res = await fetch(API_BASE + path);
+  if (!res.ok) throw new Error(`API ${path} → ${res.status}`);
+  return res.json();
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// LOAD FOLIUM MAP
+// ─────────────────────────────────────────────────────────────────────────────
+async function loadFoliumMap() {
+  const wrap = document.getElementById('folium-map-wrap');
+  try {
+    const res = await fetch(API_BASE + '/api/map');
+    const html = await res.text();
+    wrap.innerHTML = `
+      <div style="width:100%;height:580px;border-radius:0">
+        <iframe id="folium-iframe" srcdoc="" style="width:100%;height:100%;border:none;border-radius:0" allowfullscreen></iframe>
+      </div>`;
+    const iframe = document.getElementById('folium-iframe');
+    iframe.srcdoc = html;
+  } catch (e) {
+    wrap.innerHTML = `
+      <div style="padding:3rem;text-align:center">
+        <div style="font-size:2rem;margin-bottom:1rem">⚠️</div>
+        <div style="color:#ef4444;font-weight:600;margin-bottom:0.5rem">Map unavailable</div>
+        <div style="color:#64748b;font-size:0.85rem">Backend not reachable at <code>${API_BASE || 'same origin'}</code></div>
+      </div>`;
+  }
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// RISK TABLE
+// ─────────────────────────────────────────────────────────────────────────────
+let _riskData = [];
+let _riskFilter = '';
+let _tierFilter = 'All';
+
+const TIER_COLORS = { Critical:'#8b0000', High:'#ef4444', Moderate:'#d97706', Low:'#059669' };
+const TIER_BG     = { Critical:'rgba(139,0,0,0.08)', High:'rgba(239,68,68,0.08)', Moderate:'rgba(245,158,11,0.08)', Low:'rgba(16,185,129,0.08)' };
+
+function renderRiskTable() {
+  const filtered = _riskData.filter(r => {
+    const matchText = !_riskFilter || r.state.toLowerCase().includes(_riskFilter.toLowerCase());
+    const matchTier = _tierFilter === 'All' || r.risk_tier === _tierFilter;
+    return matchText && matchTier;
+  });
+  const tbody = document.getElementById('risk-table-body');
+  const count = document.getElementById('risk-table-count');
+  if (!filtered.length) {
+    tbody.innerHTML = `<tr><td colspan="6" style="padding:2rem;text-align:center;color:#94a3b8">No states match the current filter.</td></tr>`;
+    count.textContent = '';
+    return;
+  }
+  tbody.innerHTML = filtered.map((r, i) => {
+    const bar = Math.round(r.composite_risk * 100);
+    const tc = TIER_COLORS[r.risk_tier] || '#64748b';
+    const tbg = TIER_BG[r.risk_tier] || 'transparent';
+    return `
+      <tr style="border-top:1px solid rgba(37,99,235,0.06);transition:background 0.2s"
+          onmouseenter="this.style.background='rgba(37,99,235,0.03)'"
+          onmouseleave="this.style.background='transparent'">
+        <td style="padding:0.9rem 1.2rem;font-family:'Space Grotesk',sans-serif;font-weight:700;color:#94a3b8;font-size:0.9rem">#${r.rank}</td>
+        <td style="padding:0.9rem 1.2rem">
+          <div style="font-weight:600;color:#0f1535;font-size:0.88rem">${r.state}</div>
+          <div style="font-size:0.72rem;color:#94a3b8">${r.abbr} · ${r.region}</div>
+        </td>
+        <td style="padding:0.9rem 1.2rem;text-align:center">
+          <div style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:1rem;color:#0f1535">${r.composite_risk.toFixed(3)}</div>
+          <div style="height:4px;background:#e0e8ff;border-radius:2px;margin-top:4px;overflow:hidden">
+            <div style="height:100%;width:${bar}%;background:${tc};border-radius:2px;transition:width 0.8s ease"></div>
+          </div>
+        </td>
+        <td style="padding:0.9rem 1.2rem;text-align:center">
+          <span style="display:inline-block;padding:0.3rem 0.9rem;border-radius:100px;background:${tbg};color:${tc};font-size:0.75rem;font-weight:700;font-family:'Space Grotesk',sans-serif;border:1px solid ${tc}33">
+            ${r.risk_tier}
+          </span>
+        </td>
+        <td style="padding:0.9rem 1.2rem;text-align:center;font-family:'Space Grotesk',sans-serif;font-weight:600;color:#64748b">Cluster ${r.bfs_cluster}</td>
+        <td style="padding:0.9rem 1.2rem;text-align:center;font-size:0.8rem;color:#64748b">${r.region}</td>
+      </tr>`;
+  }).join('');
+  count.textContent = `Showing ${filtered.length} of ${_riskData.length} states`;
+}
+
+async function loadRiskTable() {
+  try {
+    _riskData = await apiFetch('/api/risk-index');
+    renderRiskTable();
+  } catch (e) {
+    document.getElementById('risk-table-body').innerHTML =
+      `<tr><td colspan="6" style="padding:2rem;text-align:center;color:#ef4444">⚠️ Could not fetch risk data from API. Is FastAPI running?</td></tr>`;
+  }
+}
+
+// Filter listeners
+document.getElementById('risk-search').addEventListener('input', e => {
+  _riskFilter = e.target.value;
+  renderRiskTable();
+});
+document.querySelectorAll('.tier-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.tier-btn').forEach(b => {
+      b.style.background = '#fff';
+      b.style.fontWeight = '600';
+      b.classList.remove('active');
+    });
+    btn.style.background = 'rgba(37,99,235,0.1)';
+    btn.classList.add('active');
+    _tierFilter = btn.dataset.tier;
+    renderRiskTable();
+  });
+});
+
+// ─────────────────────────────────────────────────────────────────────────────
+// BFS CLUSTER GRID
+// ─────────────────────────────────────────────────────────────────────────────
+const CLUSTER_PALETTE = [
+  '#2563eb','#f43f5e','#10b981','#f59e0b','#8b5cf6',
+  '#0ea5e9','#ec4899','#14b8a6','#f97316','#6366f1'
+];
+
+async function loadClusters() {
+  const grid = document.getElementById('cluster-grid');
+  try {
+    const data = await apiFetch('/api/clusters');
+    grid.innerHTML = data.clusters.map((c, i) => {
+      const color = CLUSTER_PALETTE[i % CLUSTER_PALETTE.length];
+      return `
+        <div style="background:#fff;border-radius:16px;padding:1.4rem;
+                    border:1px solid rgba(37,99,235,0.1);
+                    box-shadow:0 2px 12px rgba(37,99,235,0.06)">
+          <div style="display:flex;align-items:center;gap:0.7rem;margin-bottom:1rem">
+            <div style="width:32px;height:32px;border-radius:8px;background:${color}20;
+                        display:flex;align-items:center;justify-content:center;
+                        color:${color};font-weight:700;font-family:'Space Grotesk',sans-serif;font-size:0.9rem">
+              ${c.cluster_id}
+            </div>
+            <div>
+              <div style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:0.85rem;color:#0f1535">
+                Cluster ${c.cluster_id}
+              </div>
+              <div style="font-size:0.72rem;color:#94a3b8">${c.size} state${c.size>1?'s':''}</div>
+            </div>
+          </div>
+          <div style="display:flex;flex-wrap:wrap;gap:0.4rem">
+            ${c.states.map(s => `
+              <span style="padding:0.2rem 0.6rem;background:${color}12;color:${color};
+                           border-radius:6px;font-size:0.72rem;font-weight:600;
+                           border:1px solid ${color}30">${s}</span>
+            `).join('')}
+          </div>
+        </div>`;
+    }).join('');
+    // Summary line
+    const summary = document.createElement('div');
+    summary.style.cssText = 'grid-column:1/-1;text-align:center;color:#94a3b8;font-size:0.8rem;padding:0.5rem';
+    summary.textContent = `${data.total_clusters} clusters · BFS threshold 0.05`;
+    grid.appendChild(summary);
+  } catch (e) {
+    grid.innerHTML = `<div style="color:#ef4444;font-size:0.85rem;padding:1rem">⚠️ Could not load clusters. Is FastAPI running?</div>`;
+  }
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// COMPONENT 2: GLOBE (pure canvas — original code)
+// ─────────────────────────────────────────────────────────────────────────────
+(function initGlobe() {
+  const canvas = document.getElementById('globe');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  const W = 460, H = 460;
+  canvas.width = W; canvas.height = H;
+  const cx = W / 2, cy = H / 2, R = 200;
+  const satellites = [
+    { lat: 28.6, lon: 77.2, label: 'Delhi', color: '#f43f5e', size: 5 },
+    { lat: 19.0, lon: 72.8, label: 'Mumbai', color: '#2563eb', size: 4 },
+    { lat: 13.0, lon: 80.2, label: 'Chennai', color: '#10b981', size: 4 },
+    { lat: 22.5, lon: 88.3, label: 'Kolkata', color: '#f59e0b', size: 4 },
+    { lat: 12.9, lon: 77.6, label: 'Bengaluru', color: '#8b5cf6', size: 4 },
+    { lat: 25.5, lon: 85.1, label: 'Patna', color: '#f43f5e', size: 5 },
+    { lat: 26.9, lon: 75.8, label: 'Jaipur', color: '#0ea5e9', size: 3 },
+    { lat: 17.4, lon: 78.5, label: 'Hyderabad', color: '#10b981', size: 3 },
+    { lat: 21.2, lon: 81.6, label: 'Raipur', color: '#2563eb', size: 3 },
+    { lat: 8.5,  lon: 76.9, label: 'Trivandrum', color: '#10b981', size: 4 },
+    { lat: 23.2, lon: 77.4, label: 'Bhopal', color: '#f43f5e', size: 3 },
+    { lat: 30.9, lon: 75.8, label: 'Ludhiana', color: '#f59e0b', size: 3 },
+  ];
+  const connections = [[0,1],[0,2],[1,3],[2,9],[0,6],[3,5],[4,7],[5,10],[6,11]];
+  let phi = 0;
+  function latLonTo3D(lat, lon, rotAngle) {
+    const phi_rad = (lat * Math.PI) / 180;
+    const lam_rad = (lon * Math.PI) / 180;
+    return {
+      x: Math.cos(phi_rad) * Math.cos(lam_rad + rotAngle),
+      y: Math.sin(phi_rad),
+      z: Math.cos(phi_rad) * Math.sin(lam_rad + rotAngle),
+    };
+  }
+  function project(x, y, z) { return { sx: cx + x*R, sy: cy - y*R, visible: z > -0.2 }; }
+  function drawFrame() {
+    ctx.clearRect(0, 0, W, H);
+    const grad = ctx.createRadialGradient(cx-60, cy-60, 20, cx, cy, R);
+    grad.addColorStop(0, 'rgba(255,255,255,0.12)');
+    grad.addColorStop(0.5, 'rgba(37,99,235,0.08)');
+    grad.addColorStop(1, 'rgba(15,21,53,0.05)');
+    ctx.beginPath(); ctx.arc(cx, cy, R, 0, Math.PI*2); ctx.fillStyle = grad; ctx.fill();
+    for (let lat = -75; lat <= 75; lat += 25) {
+      ctx.beginPath(); let first = true;
+      for (let lon = -180; lon <= 180; lon += 3) {
+        const p3 = latLonTo3D(lat, lon, phi); const pr = project(p3.x, p3.y, p3.z);
+        if (!pr.visible) { first = true; continue; }
+        if (first) { ctx.moveTo(pr.sx, pr.sy); first = false; } else ctx.lineTo(pr.sx, pr.sy);
+      }
+      ctx.strokeStyle = 'rgba(255,255,255,0.08)'; ctx.lineWidth = 0.5; ctx.stroke();
+    }
+    for (let lon = 0; lon < 360; lon += 30) {
+      ctx.beginPath(); let first = true;
+      for (let lat = -90; lat <= 90; lat += 3) {
+        const p3 = latLonTo3D(lat, lon, phi); const pr = project(p3.x, p3.y, p3.z);
+        if (!pr.visible) { first = true; continue; }
+        if (first) { ctx.moveTo(pr.sx, pr.sy); first = false; } else ctx.lineTo(pr.sx, pr.sy);
+      }
+      ctx.strokeStyle = 'rgba(255,255,255,0.06)'; ctx.lineWidth = 0.5; ctx.stroke();
+    }
+    const pts3D = satellites.map(s => { const p = latLonTo3D(s.lat, s.lon, phi); return { ...project(p.x, p.y, p.z), data: s }; });
+    connections.forEach(([a,b]) => {
+      const pa = pts3D[a], pb = pts3D[b];
+      if (!pa.visible || !pb.visible) return;
+      ctx.beginPath(); ctx.moveTo(pa.sx, pa.sy); ctx.lineTo(pb.sx, pb.sy);
+      ctx.strokeStyle = 'rgba(96,165,250,0.25)'; ctx.lineWidth = 0.8;
+      ctx.setLineDash([3,5]); ctx.stroke(); ctx.setLineDash([]);
+    });
+    pts3D.forEach(pt => {
+      if (!pt.visible) return;
+      const pulse = (Math.sin(Date.now()/800 + pt.sx) + 1) * 0.5;
+      const glowR = pt.data.size + 3 + pulse*4;
+      const glowGrad = ctx.createRadialGradient(pt.sx, pt.sy, 0, pt.sx, pt.sy, glowR);
+      glowGrad.addColorStop(0, pt.data.color + 'aa'); glowGrad.addColorStop(1, pt.data.color + '00');
+      ctx.beginPath(); ctx.arc(pt.sx, pt.sy, glowR, 0, Math.PI*2); ctx.fillStyle = glowGrad; ctx.fill();
+      ctx.beginPath(); ctx.arc(pt.sx, pt.sy, pt.data.size, 0, Math.PI*2);
+      ctx.fillStyle = pt.data.color; ctx.globalAlpha = 0.9; ctx.fill(); ctx.globalAlpha = 1;
+      ctx.beginPath(); ctx.arc(pt.sx, pt.sy, pt.data.size+2, 0, Math.PI*2);
+      ctx.strokeStyle = 'rgba(255,255,255,0.4)'; ctx.lineWidth = 0.5; ctx.stroke();
+    });
+    ctx.beginPath(); let firstEq = true;
+    for (let lon = -180; lon <= 180; lon += 2) {
+      const p3 = latLonTo3D(0, lon, phi); const pr = project(p3.x, p3.y, p3.z);
+      if (!pr.visible) { firstEq = true; continue; }
+      if (firstEq) { ctx.moveTo(pr.sx, pr.sy); firstEq = false; } else ctx.lineTo(pr.sx, pr.sy);
+    }
+    ctx.strokeStyle = 'rgba(96,165,250,0.2)'; ctx.lineWidth = 1; ctx.stroke();
+    phi += 0.003;
+    requestAnimationFrame(drawFrame);
+  }
+  drawFrame();
+})();
+
+// ─────────────────────────────────────────────────────────────────────────────
+// COMPONENT 5: LOGO CLOUD
+// ─────────────────────────────────────────────────────────────────────────────
+const logos = [
+  { icon: '🏛️', name: 'Ministry of Health & FW' },
+  { icon: '📊', name: 'IIPS Mumbai' },
+  { icon: '🌐', name: 'NFHS India' },
+  { icon: '📈', name: 'Kaggle Dataset' },
+  { icon: '🗂️', name: 'Census of India' },
+  { icon: '🔬', name: 'ICMR Research' },
+  { icon: '📋', name: 'WHO India' },
+  { icon: '🌍', name: 'World Bank Data' },
+];
+const marquee = document.getElementById('logo-marquee');
+const doubled = [...logos, ...logos];
+doubled.forEach(l => {
+  const el = document.createElement('div');
+  el.className = 'logo-marquee-item';
+  el.innerHTML = `<span class="logo-icon">${l.icon}</span>${l.name}`;
+  marquee.appendChild(el);
+});
+
+// ─────────────────────────────────────────────────────────────────────────────
+// COUNTER ANIMATION
+// ─────────────────────────────────────────────────────────────────────────────
+function animateCounter(el) {
+  const target = +el.dataset.target;
+  const duration = 1800;
+  const start = performance.now();
+  const update = (now) => {
+    const progress = Math.min((now - start) / duration, 1);
+    const eased = 1 - Math.pow(1 - progress, 3);
+    el.textContent = Math.round(eased * target);
+    if (progress < 1) requestAnimationFrame(update);
+  };
+  requestAnimationFrame(update);
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// SCROLL REVEAL
+// ─────────────────────────────────────────────────────────────────────────────
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.classList.add('visible');
+      e.target.querySelectorAll('.counter').forEach(c => animateCounter(c));
+    }
+  });
+}, { threshold: 0.12 });
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+setTimeout(() => {
+  document.querySelectorAll('.hero-stat').forEach(c => c.classList.add('vis'));
+  document.querySelectorAll('.hero-stat .counter').forEach(c => animateCounter(c));
+}, 1000);
+
+// ─────────────────────────────────────────────────────────────────────────────
+// CRM BARS
+// ─────────────────────────────────────────────────────────────────────────────
+const kerala = stateData.find(s => s.state === 'Kerala');
+const maxOb = Math.max(...stateData.map(s => s.Obesity_Women));
+const maxAn = Math.max(...stateData.map(s => s.Anaemia_Women));
+const maxHy = Math.max(...stateData.map(s => s.Hypertension_Women));
+const maxBS = Math.max(...stateData.map(s => s.BloodSugar_Women));
+const crmBarsData = [
+  { label: 'Obesity (W)', val: kerala.Obesity_Women, max: maxOb, color: '#2563eb' },
+  { label: 'Anaemia (W)', val: kerala.Anaemia_Women, max: maxAn, color: '#f43f5e' },
+  { label: 'Hypertension', val: kerala.Hypertension_Women, max: maxHy, color: '#0ea5e9' },
+  { label: 'Blood Sugar', val: kerala.BloodSugar_Women, max: maxBS, color: '#10b981' },
+];
+const crmBarsEl = document.getElementById('crm-bars');
+if (crmBarsEl) {
+  crmBarsData.forEach(b => {
+    const row = document.createElement('div');
+    row.className = 'crm-bar-row';
+    row.innerHTML = `
+      <div class="crm-bar-label">${b.label}</div>
+      <div class="crm-bar-track"><div class="crm-bar-fill" style="width:0%;background:${b.color}" data-w="${(b.val/b.max*100).toFixed(1)}"></div></div>
+      <div class="crm-bar-pct">${b.val}%</div>`;
+    crmBarsEl.appendChild(row);
+  });
+  setTimeout(() => {
+    crmBarsEl.querySelectorAll('.crm-bar-fill').forEach(f => f.style.width = f.dataset.w + '%');
+  }, 500);
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// STATE LIST (Explorer)
+// ─────────────────────────────────────────────────────────────────────────────
+function renderStateList(filter = '') {
+  const list = document.getElementById('state-list');
+  const filtered = stateData.filter(s => s.state.toLowerCase().includes(filter.toLowerCase()));
+  list.innerHTML = filtered.map(s => `
+    <div class="state-item" data-state="${s.state}" onclick="selectState('${s.state}')">
+      <span class="s-name">${s.state}</span>
+      <span class="s-abbr">${s.abbr}</span>
+    </div>`).join('');
+}
+renderStateList();
+document.getElementById('state-search').addEventListener('input', e => renderStateList(e.target.value));
+
+function selectState(name) {
+  document.querySelectorAll('.state-item').forEach(el => {
+    el.classList.toggle('active', el.dataset.state === name);
+  });
+  const d = stateData.find(s => s.state === name);
+  if (!d) return;
+  const mxOb = Math.max(...stateData.map(s => s.Obesity_Women));
+  const mxAn = Math.max(...stateData.map(s => s.Anaemia_Women));
+  const mxBP = Math.max(...stateData.map(s => s.Hypertension_Women));
+  const mxBS = Math.max(...stateData.map(s => s.BloodSugar_Women));
+  const gap = (d.Obesity_Women - d.Obesity_Men).toFixed(1);
+  const gapColor = +gap > 0 ? 'var(--blue-mid)' : 'var(--green)';
+  document.getElementById('state-detail').innerHTML = `
+    <div class="detail-header">
+      <div>
+        <div class="detail-state-name">${d.state}</div>
+        <div class="detail-region">${d.region} India</div>
+      </div>
+      <div class="detail-rank">${d.abbr}</div>
+    </div>
+    <div class="metrics-grid">
+      <div class="metric-card">
+        <div class="metric-label">Obesity · Women</div>
+        <div class="metric-val" style="color:var(--blue-mid)">${d.Obesity_Women}%</div>
+        <div class="metric-sub">Men: ${d.Obesity_Men}% &nbsp;·&nbsp; Gap: <span style="color:${gapColor}">${gap}%</span></div>
+        <div class="metric-bar"><div class="metric-bar-fill" style="width:0%;background:var(--blue-mid)" data-width="${(d.Obesity_Women/mxOb*100).toFixed(1)}"></div></div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-label">Anaemia · Women</div>
+        <div class="metric-val" style="color:var(--rose)">${d.Anaemia_Women}%</div>
+        <div class="metric-sub">Children: ${d.Anaemia_Children}%</div>
+        <div class="metric-bar"><div class="metric-bar-fill" style="width:0%;background:var(--rose)" data-width="${(d.Anaemia_Women/mxAn*100).toFixed(1)}"></div></div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-label">Hypertension · Women</div>
+        <div class="metric-val" style="color:var(--teal)">${d.Hypertension_Women}%</div>
+        <div class="metric-sub">Men: ${d.Hypertension_Men}%</div>
+        <div class="metric-bar"><div class="metric-bar-fill" style="width:0%;background:var(--teal)" data-width="${(d.Hypertension_Women/mxBP*100).toFixed(1)}"></div></div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-label">Blood Sugar · Women</div>
+        <div class="metric-val" style="color:var(--green)">${d.BloodSugar_Women}%</div>
+        <div class="metric-sub">Men: ${d.BloodSugar_Men}%</div>
+        <div class="metric-bar"><div class="metric-bar-fill" style="width:0%;background:var(--green)" data-width="${(d.BloodSugar_Women/mxBS*100).toFixed(1)}"></div></div>
+      </div>
+    </div>
+    <div style="margin-top:1rem">
+      <div style="font-size:0.7rem;color:var(--text-muted);margin-bottom:0.8rem;letter-spacing:0.06em;text-transform:uppercase">Relative burden vs national maximum</div>
+      ${[
+        {label:'Obesity (W)', val:d.Obesity_Women, max:mxOb, color:'var(--blue-mid)'},
+        {label:'Obesity (M)', val:d.Obesity_Men, max:mxOb, color:'rgba(37,99,235,0.5)'},
+        {label:'Anaemia (W)', val:d.Anaemia_Women, max:mxAn, color:'var(--rose)'},
+        {label:'Anaemia (C)', val:d.Anaemia_Children, max:Math.max(...stateData.map(s=>s.Anaemia_Children)), color:'rgba(244,63,94,0.5)'},
+        {label:'Hypert. (W)', val:d.Hypertension_Women, max:mxBP, color:'var(--teal)'},
+        {label:'Blood Sugar (W)', val:d.BloodSugar_Women, max:mxBS, color:'var(--green)'},
+      ].map(m => `
+        <div style="display:flex;align-items:center;gap:1rem;margin-bottom:0.55rem">
+          <div style="width:86px;font-size:0.7rem;color:var(--text-muted);text-align:right;flex-shrink:0">${m.label}</div>
+          <div style="flex:1;height:5px;background:var(--slate-mid);border-radius:3px;overflow:hidden">
+            <div style="width:${(m.val/m.max*100).toFixed(1)}%;height:100%;background:${m.color};border-radius:3px;transition:width 0.8s ease"></div>
+          </div>
+          <div style="width:38px;font-size:0.78rem;font-weight:600;font-family:'Space Grotesk',sans-serif;color:var(--text-dark)">${m.val}%</div>
+        </div>`).join('')}
+    </div>`;
+  setTimeout(() => {
+    document.querySelectorAll('.metric-bar-fill').forEach(b => b.style.width = b.dataset.width + '%');
+  }, 50);
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// SCATTER CHARTS
+// ─────────────────────────────────────────────────────────────────────────────
+function drawScatter(canvasId, xKey, yKey, xLabel, yLabel, color) {
+  const canvas = document.getElementById(canvasId);
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  const W = canvas.offsetWidth || 500, H = 280;
+  canvas.width = W * window.devicePixelRatio; canvas.height = H * window.devicePixelRatio;
+  canvas.style.width = W + 'px'; canvas.style.height = H + 'px';
+  ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
+  const pad = { top:20, right:20, bottom:40, left:48 };
+  const plotW = W - pad.left - pad.right, plotH = H - pad.top - pad.bottom;
+  const xs = stateData.map(d => d[xKey]), ys = stateData.map(d => d[yKey]);
+  const minX = Math.min(...xs)-2, maxX = Math.max(...xs)+2;
+  const minY = Math.min(...ys)-2, maxY = Math.max(...ys)+2;
+  const toX = v => pad.left + ((v-minX)/(maxX-minX))*plotW;
+  const toY = v => pad.top + plotH - ((v-minY)/(maxY-minY))*plotH;
+  ctx.fillStyle = '#f8faff'; ctx.roundRect(0, 0, W, H, 10); ctx.fill();
+  ctx.strokeStyle = 'rgba(37,99,235,0.08)'; ctx.lineWidth = 1;
+  for (let i = 0; i <= 5; i++) {
+    const x = pad.left + (i/5)*plotW; ctx.beginPath(); ctx.moveTo(x, pad.top); ctx.lineTo(x, pad.top+plotH); ctx.stroke();
+    const y = pad.top + (i/5)*plotH; ctx.beginPath(); ctx.moveTo(pad.left, y); ctx.lineTo(pad.left+plotW, y); ctx.stroke();
+  }
+  const n = stateData.length;
+  const sumX = xs.reduce((a,b)=>a+b,0), sumY = ys.reduce((a,b)=>a+b,0);
+  const sumXY = xs.reduce((a,b,i)=>a+b*ys[i],0), sumX2 = xs.reduce((a,b)=>a+b*b,0);
+  const slope = (n*sumXY - sumX*sumY)/(n*sumX2 - sumX*sumX);
+  const intercept = (sumY - slope*sumX)/n;
+  ctx.strokeStyle = 'rgba(37,99,235,0.3)'; ctx.lineWidth = 1.5; ctx.setLineDash([4,4]);
+  ctx.beginPath(); ctx.moveTo(toX(minX), toY(slope*minX+intercept)); ctx.lineTo(toX(maxX), toY(slope*maxX+intercept));
+  ctx.stroke(); ctx.setLineDash([]);
+  stateData.forEach(d => {
+    const x = toX(d[xKey]), y = toY(d[yKey]);
+    ctx.beginPath(); ctx.arc(x, y, 4.5, 0, Math.PI*2);
+    ctx.fillStyle = color; ctx.globalAlpha = 0.75; ctx.fill(); ctx.globalAlpha = 1;
+    ctx.strokeStyle = 'rgba(255,255,255,0.8)'; ctx.lineWidth = 1; ctx.stroke();
+    if (d[xKey] > maxX*0.82 || d[yKey] > maxY*0.82 || d.state==='Kerala' || d.state==='Bihar' || d.state==='Punjab') {
+      ctx.fillStyle = '#334155'; ctx.font = '9px Inter'; ctx.globalAlpha = 0.8;
+      ctx.fillText(d.abbr, x+6, y-4); ctx.globalAlpha = 1;
+    }
+  });
+  ctx.fillStyle = '#94a3b8'; ctx.font = '10px Inter'; ctx.textAlign = 'center';
+  ctx.fillText(xLabel, pad.left + plotW/2, H-5);
+  ctx.save(); ctx.translate(13, pad.top+plotH/2); ctx.rotate(-Math.PI/2);
+  ctx.fillText(yLabel, 0, 0); ctx.restore();
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// CORRELATION MATRIX
+// ─────────────────────────────────────────────────────────────────────────────
+function drawCorrMatrix() {
+  const keys = ['Obesity_Women','Obesity_Men','Anaemia_Women','Anaemia_Children','BloodSugar_Women','BloodSugar_Men','Hypertension_Women','Hypertension_Men'];
+  const shorts = ['Ob.W','Ob.M','An.W','An.C','BS.W','BS.M','Hy.W','Hy.M'];
+  function corr(a, b) {
+    const mA = a.reduce((s,v)=>s+v,0)/a.length, mB = b.reduce((s,v)=>s+v,0)/b.length;
+    const num = a.reduce((s,v,i)=>s+(v-mA)*(b[i]-mB),0);
+    const dA = Math.sqrt(a.reduce((s,v)=>s+Math.pow(v-mA,2),0));
+    const dB = Math.sqrt(b.reduce((s,v)=>s+Math.pow(v-mB,2),0));
+    return dA*dB===0?0:num/(dA*dB);
+  }
+  const vals = keys.map(ka => keys.map(kb => corr(stateData.map(d=>d[ka]), stateData.map(d=>d[kb]))));
+  const cell = 58;
+  let html = `<table style="border-collapse:collapse;font-size:0.72rem;font-family:'Space Grotesk',sans-serif">`;
+  html += '<tr><td style="width:80px"></td>';
+  shorts.forEach(l => { html += `<td style="width:${cell}px;text-align:center;color:var(--text-muted);padding:4px 2px;font-size:0.65rem">${l}</td>`; });
+  html += '</tr>';
+  vals.forEach((row, i) => {
+    html += `<tr><td style="color:var(--text-muted);text-align:right;padding-right:8px;white-space:nowrap;font-size:0.65rem">${shorts[i]}</td>`;
+    row.forEach(v => {
+      const abs = Math.abs(v);
+      const bg = `rgba(${v>0?'37,99,235':'244,63,94'},${abs*0.85})`;
+      const tc = abs > 0.45 ? '#fff' : 'var(--text-muted)';
+      html += `<td style="width:${cell}px;height:${cell}px;background:${bg};text-align:center;border:1px solid rgba(255,255,255,0.5);color:${tc};font-weight:${abs>0.5?700:400};border-radius:3px">${v.toFixed(2)}</td>`;
+    });
+    html += '</tr>';
+  });
+  html += '</table>';
+  document.getElementById('corr-matrix').innerHTML = html;
+}
+
+const scatterObs = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      setTimeout(() => {
+        drawScatter('scatter1','Anaemia_Women','Obesity_Women','Anaemia – Women (%)','Obesity – Women (%)','rgba(244,63,94,0.8)');
+        drawScatter('scatter2','Hypertension_Women','BloodSugar_Women','Hypertension – Women (%)','Blood Sugar – Women (%)','rgba(10,165,233,0.8)');
+        drawCorrMatrix();
+      }, 200);
+      scatterObs.disconnect();
+    }
+  });
+}, { threshold: 0.1 });
+const corrEl = document.getElementById('correlations');
+if (corrEl) scatterObs.observe(corrEl);
+
+window.addEventListener('resize', () => {
+  drawScatter('scatter1','Anaemia_Women','Obesity_Women','Anaemia – Women (%)','Obesity – Women (%)','rgba(244,63,94,0.8)');
+  drawScatter('scatter2','Hypertension_Women','BloodSugar_Women','Hypertension – Women (%)','Blood Sugar – Women (%)','rgba(10,165,233,0.8)');
+});
+
+// ─────────────────────────────────────────────────────────────────────────────
+// RANKINGS (original)
+// ─────────────────────────────────────────────────────────────────────────────
+let currentRankKey = 'Anaemia_Children';
+function renderRankTabs() {
+  document.getElementById('rank-tabs').innerHTML = rankIndicators.map(r =>
+    `<button class="rank-tab${r.key===currentRankKey?' active':''}" onclick="setRankKey('${r.key}')">${r.label}</button>`
+  ).join('');
+}
+function setRankKey(key) { currentRankKey = key; renderRankTabs(); renderRankList(); }
+function renderRankList() {
+  const ind = rankIndicators.find(r => r.key === currentRankKey);
+  const sorted = [...stateData].sort((a,b) => b[currentRankKey] - a[currentRankKey]).slice(0,10);
+  const maxVal = sorted[0][currentRankKey];
+  document.getElementById('rank-list').innerHTML = sorted.map((d, i) => `
+    <div class="rank-row">
+      <div class="rank-num">${i===0?'🥇':i===1?'🥈':i===2?'🥉':i+1}</div>
+      <div>
+        <div class="rank-state">${d.state}</div>
+        <div class="rank-region">${d.region}</div>
+      </div>
+      <div class="rank-val" style="color:${ind.color}">${d[currentRankKey]}%</div>
+      <div class="rank-bar-wrap">
+        <div class="rank-bar-inner" style="width:${(d[currentRankKey]/maxVal*100).toFixed(1)}%;background:${ind.color}"></div>
+      </div>
+    </div>`).join('');
+}
+renderRankTabs(); renderRankList();
+
+// ─────────────────────────────────────────────────────────────────────────────
+// NAV SCROLL
+// ─────────────────────────────────────────────────────────────────────────────
+window.addEventListener('scroll', () => {
+  document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 60);
+});
+
+// ─────────────────────────────────────────────────────────────────────────────
+// SPIN ANIMATION (used by map loading)
+// ─────────────────────────────────────────────────────────────────────────────
+const spinStyle = document.createElement('style');
+spinStyle.textContent = `@keyframes spin { to { transform: rotate(360deg); } }`;
+document.head.appendChild(spinStyle);
+
+// CRM benefit hover
+document.querySelectorAll('.crm-benefit').forEach(el => {
+  el.addEventListener('mouseenter', () => {
+    document.querySelectorAll('.crm-benefit').forEach(e => e.classList.remove('active'));
+    el.classList.add('active');
+  });
+});
+const indObs = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) e.target.querySelectorAll('.counter').forEach(c => animateCounter(c));
+  });
+}, { threshold: 0.3 });
+document.querySelectorAll('.ind-card').forEach(c => indObs.observe(c));
+
+// ─────────────────────────────────────────────────────────────────────────────
+// LAZY-LOAD API SECTIONS (trigger when in viewport)
+// ─────────────────────────────────────────────────────────────────────────────
+const apiObs = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (!e.isIntersecting) return;
+    const id = e.target.id;
+    if (id === 'map-section')     { loadFoliumMap();  apiObs.unobserve(e.target); }
+    if (id === 'risk-table-section') { loadRiskTable(); apiObs.unobserve(e.target); }
+    if (id === 'cluster-section') { loadClusters();   apiObs.unobserve(e.target); }
+  });
+}, { threshold: 0.05 });
+
+['map-section','risk-table-section','cluster-section'].forEach(id => {
+  const el = document.getElementById(id);
+  if (el) apiObs.observe(el);
+});
+
+</script>
+</body>
+</html>
